@@ -1,1 +1,1 @@
-# alg_lang
+# Repository for C programms
