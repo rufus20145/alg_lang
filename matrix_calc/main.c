@@ -11,8 +11,8 @@
 #define MAX_SIZE 255
 
 int main() {
-    short errorCode = 0;
-    long linesNum, columnsNum;
+    unsigned short errorCode = 0;
+    unsigned long linesNum, columnsNum;
     char temp[MAX_SIZE];
     double matrix[MAX_SIZE][MAX_SIZE];
     printf("Enter matrix size:\n");
