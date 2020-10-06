@@ -12,7 +12,7 @@ int main()
 #endif
     int array[MAX_SIZE], size = 0, swapNumber = 0, compare = 0, sortingType = 0;
     int minValue = 5, maxValue = 15, minArrayValue = 0, maxArrayValue = 100;
-    printf("Choose type of sorting:\n1)Standart\n2)Bubble\n");
+    printf("Choose type of sorting:\n1)Standart\n2)Minimax\n3)Bubble\n");
     scanf("%d", &sortingType);
     enterNumbers(minValue, maxValue, 1, &size, "Enter array size.");//ввод размера массива
     printf("Now enter the array values. They must be bigger than %d and less than %d.\n", minArrayValue, maxArrayValue);
