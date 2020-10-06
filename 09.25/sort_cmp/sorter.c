@@ -1,5 +1,4 @@
-#define MAX_SIZE 256
-void sortArray(int array[MAX_SIZE], int size, int sortingType, int *extCompare, int *extSwapNumber)
+void sortArray(int *array, int size, int sortingType, int *extCompare, int *extSwapNumber)
 {
     int swapCheck, compare = 0, swapNumber = 0;
     switch (sortingType)
@@ -7,7 +6,21 @@ void sortArray(int array[MAX_SIZE], int size, int sortingType, int *extCompare, 
     case 1: //полный перебор
         do
         {
-        } while (1);
+            swapCheck = 0;
+            for (int i = 0; i < size - 1; i++)
+            {
+                compare++;
+                if (array[i] > array[i + 1])
+                {
+                    swapNumbers(array[i], array[i + 1], &array[i], &array[i + 1]);
+                    swapCheck++;
+                }
+                printf("123\n");
+                continue;
+            }
+            swapNumber += swapCheck;
+            printf("12365\n");
+        } while (swapCheck > 0);
         break;
     case 2: //поиск минимума
 
