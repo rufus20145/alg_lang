@@ -16,28 +16,23 @@ void sortArray(int *array, int size, int sortingType, int *extCompare, int *extS
             for (int i = 0; i < size - 1;)
             {
                 compare++;
-#ifdef DEBUG
-                printf("Before if i = %d\n", i);
-#endif
                 if (array[i] > array[i + 1])
                 {
                     swapNumbers(array[i], array[i + 1], &array[i], &array[i + 1]);
-                    // #ifdef DEBUG
-                    //                     printf("Changed elements %d and %d\n", i, i + 1);
-                    // #endif
+#ifdef DEBUG
+                    printf("Changed elements %d and %d\n", i, i + 1);
+#endif
                     swapCheck++;
                     i = 0;
                 }
-                else i++;
-#ifdef DEBUG
-                printf("After if i = %d\n", i);
-#endif
-// #ifdef DEBUG
-//                 printf("Check is %d.\nNow array is:", swapCheck);
-//                 for (int i = 0; i < size; i++)
-//                     printf("%d ", array[i]);
-//                 printf("\n\n");
-// #endif
+                else
+                    i++;
+                // #ifdef DEBUG
+                //                 printf("Check is %d.\nNow array is:", swapCheck);
+                //                 for (int i = 0; i < size; i++)
+                //                     printf("%d ", array[i]);
+                //                 printf("\n\n");
+                // #endif
                 continue;
             }
             swapNumber += swapCheck;
@@ -47,8 +42,29 @@ void sortArray(int *array, int size, int sortingType, int *extCompare, int *extS
 #endif
         break;
     case 2: //поиск минимума
-
+    {
+#ifdef DEBUG
+        printf("Entered case 2: minmax sort.\n");
+#endif
+        int minElementIndex = 0;
+        do
+        {
+            swapCheck = 0;
+            compare++;
+            for (int i = 0; i < size; i++)
+            {
+                printf("Compare elements %d and %d, they are %d and %d.\n", i, minElementIndex, array[i], array[minElementIndex]);
+                if (array[i] > array[minElementIndex])
+                {
+                    printf("Changed elements %d and %d", i, minElementIndex);
+                    swapNumbers(array[i], array[minElementIndex], &array[i], &array[minElementIndex]);
+                    minElementIndex = i;
+                    swapCheck++;
+                }
+            }
+        } while (swapCheck > 0);
         break;
+    }
     case 3: //bubble sort
 #ifdef DEBUG
         printf("Entered 3 case: bubble sort.\n");
@@ -91,7 +107,6 @@ void sortArray(int *array, int size, int sortingType, int *extCompare, int *extS
     printf("Number of compares:%d\nNumber of swaps:%d\n", compare, swapNumber);
 #endif
     *extCompare = compare;
-
     *extSwapNumber = swapNumber;
 #ifdef DEBUG
     printf("Function sortArray was completed.\n\n");
