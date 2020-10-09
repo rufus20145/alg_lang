@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdio.h>
+#include <string.h>
 #include "numSwapper.c"
 #include "input.c"
 #define MAXSIZE 256
