@@ -33,9 +33,9 @@ int main()
         tempSize = matrixHeight;
     else
         tempSize = matrixLenth;
-    for (int i = 0; i < tempSize - 1; i++)//идём по строкам
+    for (int i = 0; i < tempSize - 1; i++) //идём по строкам
     {
-        for (int j = i + 1; j < tempSize; j++)//идём по столбцам
+        for (int j = i + 1; j < tempSize; j++) //идём по столбцам
         {
             swapNumbers(matrix[i][j], matrix[j][i], &matrix[i][j], &matrix[j][i]);
         }
