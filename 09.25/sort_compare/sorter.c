@@ -7,11 +7,12 @@ void sortArray(int *array, int size, int sortingType, int *extCompare, int *extS
     switch (sortingType)
     {
     case 1: //stupid sort
+#ifdef DEBUG
+        printf("Entered 1 case: stupid sorting\n\n");
+#endif
         do
         {
-#ifdef DEBUG
-            printf("Entered 1 case: stupid sorting\n\n");
-#endif
+
             swapCheck = 0;
             for (int i = 0; i < size - 1;)
             {
