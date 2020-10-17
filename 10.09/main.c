@@ -18,11 +18,13 @@ int main()
         {
             printf("element[%d][%d] = ", i, j);
             scanf("%d", &matrix[i][j]);
-            if(matrix[i][j] > matrix[maxElementRaw][maxElementColumn]) {
+            if (matrix[i][j] > matrix[maxElementRaw][maxElementColumn])
+            {
                 maxElementRaw = i;
                 maxElementColumn = j;
             }
-            if(matrix[i][j] < matrix[minElementRaw][minElementColumn]) {
+            if (matrix[i][j] < matrix[minElementRaw][minElementColumn])
+            {
                 minElementRaw = i;
                 minElementColumn = j;
             }
@@ -39,7 +41,7 @@ int main()
         printf("\n");
     }
 
-    transposeMatrix((int**)matrix, matrixHeight, matrixLenth);
+    transposeMatrix((int **)matrix, matrixHeight, matrixLenth);
 
     printf("After transpose matrix is:\n");
     for (int i = 0; i < matrixHeight; i++)
