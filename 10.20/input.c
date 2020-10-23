@@ -66,6 +66,7 @@ void enterNumbers(int minValue, int maxValue, int numberOfElements, int destinat
     } while (1);
 #ifdef DEBUG
     printf("    Function enterNumber was completed.\n");
-    if (numberOfElements == 1) printf("    Number is %d\n\n", *destination);
+    if (numberOfElements == 1)
+        printf("    Number is %d\n\n", *destination);
 #endif
 }

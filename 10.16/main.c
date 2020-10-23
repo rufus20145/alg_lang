@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "operations.c"
 #include "input.c"
 #include "numSwapper.c"
@@ -9,22 +10,27 @@ int main()
 {
     int errorCode = 0;
     int operation;
-    int matrixSize, matrix1Length, matrix1Height, matrix2Length, matrix2Height, resultMatrixHeight, resultMatrixLength;
+    int matrixSize, matrix1Width, matrix1Height, matrix2Width, matrix2Height, resultMatrixHeight, resultMatrixWidth;
     int matrix1[MAX_SIZE][MAX_SIZE], matrix2[MAX_SIZE][MAX_SIZE], resultMatrix[MAX_SIZE][MAX_SIZE];
 
+    printf("Choose operation\n");//выбор операции
+    scanf("%d", &operation);
+
     enterNumbers(1, 256, 1, &matrix1Height, "Enter first matrix height.");
-    enterNumbers(1, 256, 1, &matrix1Length, "Enter first matrix lenth.");
-    for (int i = 0; i < matrix1Length; i++)
+    enterNumbers(1, 256, 1, &matrix1Width, "Enter first matrix width.");
+    for (int i = 0; i < matrix1Width; i++)
     {
-        for (int j = 0; j < matrix1Height; j++)
-        {
-            printf("element[%d][%d] = ", i, j);
-            scanf("%d", &matrix1[i][j]);
-        }
+        // for (int j = 0; j < matrix1Height; j++)
+        // {
+        //     printf("element[%d][%d] = ", i, j);
+        //     scanf("%d", &matrix1[i][j]);
+        // }
+        enterNumbers(-1000, 1000, matrix1Height, matrix1[i], "Enter matrix elements");
     }
+
     enterNumbers(1, 256, 1, &matrix2Height, "Enter second matrix height.");
-    enterNumbers(1, 256, 1, &matrix2Length, "Enter second matrix lenth.");
-    for (int i = 0; i < matrix2Length; i++)
+    enterNumbers(1, 256, 1, &matrix2Width, "Enter second matrix width.");
+    for (int i = 0; i < matrix2Width; i++)
     {
         for (int j = 0; j < matrix2Height; j++)
         {
@@ -32,11 +38,9 @@ int main()
             scanf("%d", &matrix2[i][j]);
         }
     }
-    printf("Choose operation\n");
-    scanf("%d", &operation);
 
-    printf("First matrix was:\n");
-    for (int i = 0; i < matrix1Length; i++)
+    printf("First matrix was:\n"); // вывод оригинальных матриц
+    for (int i = 0; i < matrix1Width; i++)
     {
         for (int j = 0; j < matrix2Height; j++)
         {
@@ -45,7 +49,7 @@ int main()
         printf("\n");
     }
     printf("Second matrix was:\n");
-    for (int i = 0; i < matrix2Length; i++)
+    for (int i = 0; i < matrix2Width; i++)
     {
         for (int j = 0; j < matrix2Height; j++)
         {
@@ -59,7 +63,7 @@ int main()
     switch (operation)
     {
     case '1':
-        errorCode = sumMatrix((int **)matrix1, (int **)matrix2, (int **)resultMatrix, matrix1Length, matrix1Height, matrix2Length, matrix2Height, &resultMatrixHeight, &resultMatrixLength);
+        errorCode = sumMatrix((int **)matrix1, (int **)matrix2, (int **)resultMatrix, matrix1Width, matrix1Height, matrix2Width, matrix2Height, &resultMatrixHeight, &resultMatrixWidth);
         break;
     // case '*':
     //     // multiplyMatrix((int **)matrix1, (int **)matrix2, (int **)resultMatrix, matrixSize);
