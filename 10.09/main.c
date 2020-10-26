@@ -41,7 +41,7 @@ int main()
         printf("\n");
     }
 
-    transposeMatrix((int **)matrix, matrixHeight, matrixLenth);
+    transposeMatrix(matrix, matrixHeight, matrixLenth);
 
     printf("After transpose matrix is:\n");
     for (int i = 0; i < matrixHeight; i++)
