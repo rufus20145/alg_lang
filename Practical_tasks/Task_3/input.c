@@ -1,8 +1,14 @@
 #define MAX_SIZE 256
 
-/*
-функция ввода
-*/
+/**
+ * @brief функция ввода
+ * 
+ * @param minValue минимальное значение
+ * @param maxValue максимальное значение
+ * @param numberOfElements количество элементов
+ * @param destination куда положить результат
+ * @param welcomeMessage сообщение
+ */
 void enterNumbers(int minValue, int maxValue, int numberOfElements, int destination[MAX_SIZE], char welcomeMessage[MAX_SIZE])
 {
 #ifdef DEBUG

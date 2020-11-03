@@ -1,5 +1,12 @@
 {
     "cSpell.words": [
         "welcome"
-    ]
+    ],
+    "files.associations": {
+        "cctype": "cpp",
+        "array": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "utility": "c"
+    }
 }
