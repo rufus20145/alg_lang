@@ -15,140 +15,20 @@
 #include <string.h>
 #include <locale.h>
 #include <windows.h>
+
+#include "input.c"
+#include "parser.c"
+#include "output.c"
+
 #define MAXSIZE 256
-/**
- * @brief функция вывода массива символов
- * 
- * @param array массив для вывода
- */
-void printArray(char *array)
-{
-    int arraySize = strlen(array);
-    for (int i = 0; i < arraySize; i++)
-    {
-        printf("%c", array[i]);
-    }
-    if (array[arraySize - 1] != '\n')
-    {
-        printf("\n");
-    }
-}
-/**
- * @brief функция для очистки массива
- * 
- * @param array - массив для очистки
- */
-void clearArray(char *array)
-{
-    int arraySize = strlen(array);
-    for (int i = 0; i < arraySize; i++)
-    {
-        array[i] = '\0';
-    }
-}
 
 /**
- * @brief фугкция ввода номера группы
- * 
- * @param array массив куда класть введенные данные
+ * @brief основная функция
+ *
+ * @return int код ошибки в систему
  */
-void enterGroup(char *array)
+int main()
 {
-    char buffer = '\0';
-    for (int i = 0; i < MAXSIZE; i++)
-    {
-        buffer = getchar();
-        if ('\n' == buffer)
-        {
-            array[i] = ' ';
-            break;
-        }
-        else
-        {
-            array[i] = buffer;
-        }
-    }
-}
-
-/**
- * @brief функция ввода ФИО
- * 
- * @param array массив, куда класть введенные данные
- * @return void
- */
-void enterCredential(char *array)
-{
-    char buffer = '\0';
-    for (int i = 0; i < MAXSIZE; i++)
-    {
-        buffer = getchar();
-        if ('\n' == buffer)
-        {
-            array[i] = ' ';
-            break;
-        }
-        else
-        {
-            array[i] = buffer;
-        }
-    }
-}
-/**
- * @brief функция проверки номера группы
- * 
- * @param array массив с номером группы для проверки
- * @return int результат проверки
- */
-int checkGroup(char *array)
-{
-    int arraySize = strlen(array);
-    arraySize--; // при вводе мы добавляем пробел в конеци его не надо проверять на букву
-    for (int i = 0; i < arraySize; i++)
-    {
-        if (!isalpha(array[i]))
-        {
-            printf("Ошибка ввода. Повторите попытку. ");
-            clearArray(array);
-            return 0;
-        }
-    }
-    return 1;
-}
-
-/**
- * @brief функция проверки ФИО
- * 
- * @param array массив для проверки
- * @return int результат проверки
- */
-int checkCredential(char *array)
-{
-    int arraySize = strlen(array);
-    arraySize--; // при вводе мы добавляем пробел в конеци его не надо проверять на букву
-    for (int i = 0; i < arraySize; i++)
-    {
-        if (!isalpha(array[i]))
-        {
-            // printf("%c не является буквой ", array[i]);
-            printf("Ошибка ввода. Повторите попытку. ");
-            clearArray(array);
-            return 0;
-        }
-    }
-    array[0] = toupper(array[0]);
-    return 1;
-}
-
-/**
- * @brief 
- * 
- * @param argc 
- * @param argv 
- * @return int 
- */
-int main(int argc, char *argv[])
-{
-    // printf("%d\n", GetConsoleCP());
     setlocale(LC_ALL, "RUSSIAN");
     if (GetConsoleCP() != 1251)
     {
@@ -156,12 +36,17 @@ int main(int argc, char *argv[])
         SetConsoleOutputCP(1251);
         printf("ConsoleCP was changed.\n");
     }
-    // printf("%d\n", GetConsoleCP());
-
+    char fileName[MAXSIZE] = "";
     FILE *currFile;
     int action;
     char surName[MAXSIZE] = "", name[MAXSIZE] = "", middleName[MAXSIZE] = "", group[MAXSIZE] = "", resultString[MAXSIZE * MAXSIZE] = "";
-
+    printf("Введите имя файла:");
+    enterCredential(fileName);
+    while (fopen(fileName, "r") == NULL)
+    {
+        printf("Ошибка в имени файла. Повторите попытку:");
+        enterCredential(fileName);
+    }
     printf("Выберите действие:\n1.Добавить данные студента\n2.Вывести данные всех студентов\n3.Очистить файл\n0.Выход из программы\n");
     do
     {
@@ -172,7 +57,7 @@ int main(int argc, char *argv[])
         {
         case 1: //ввод данных нового студента
         {
-            currFile = fopen(argv[1], "a");
+            currFile = fopen(fileName, "a");
             printf("Введите фамилию: ");
             do
             {
@@ -188,24 +73,27 @@ int main(int argc, char *argv[])
             {
                 enterCredential(middleName);
             } while (0 == checkCredential(middleName));
-            printf("Введите номер группы:");
-            enterGroup(group); //М3О-135Б-20
+            printf("Введите номер группы: ");
+            enterCredential(group); //в формате М3О-135Б-20 (3 символ - буква)
             while (!isalpha(group[0]) || !isalpha(group[7]) || !isdigit(group[1]) || !isalpha(group[2]) || !isdigit(group[4]) || !isdigit(group[5]) || !isdigit(group[6]) || !isdigit(group[9]) || !isdigit(group[10]))
             {
+                printf("Ошибка ввода. Повторите попытку.");
                 clearArray(group);
-                enterGroup(group);
+                enterCredential(group);
             }
 
-            strcat(resultString, "Студент ");
+            strcat(resultString, "Студент "); //объединяем строки с ФИО и номером группы в одну
             strcat(resultString, surName);
             strcat(resultString, name);
             strcat(resultString, middleName);
             strcat(resultString, group);
-            fprintf(currFile, "%s\n", resultString);
+
+            fprintf(currFile, "%s\n", resultString); //записываем готовую строку в файл
             fclose(currFile);
             strcat(resultString, "записан в файл.");
             printArray(resultString);
-            clearArray(surName);
+
+            clearArray(surName); //очищаем строки после использования
             clearArray(name);
             clearArray(middleName);
             clearArray(group);
@@ -214,8 +102,8 @@ int main(int argc, char *argv[])
         }
         case 2: //вывод данных студентов из файла
         {
-            printf("Содержимое файла %s:\n", argv[1]);
-            currFile = fopen(argv[1], "r");
+            printf("Содержимое файла %s:\n", fileName);
+            currFile = fopen(fileName, "r");
             char tempString[MAXSIZE];
             if (currFile == NULL)
             {
@@ -237,7 +125,7 @@ int main(int argc, char *argv[])
         }
         case 3: //очистка файла
         {
-            currFile = fopen(argv[1], "w");
+            currFile = fopen(fileName, "w");
             fclose(currFile);
             printf("Файл успешно очищен.\n");
             break;
