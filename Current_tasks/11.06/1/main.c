@@ -10,6 +10,7 @@
  */
 
 #define MAXSIZE 256
+#define NUMBER_OF_STUDENTS 32
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,4 +36,7 @@ int main(int argc, char *argv[])
         int birthDay, birthMonth, birthYear;
     };
 
+    struct studentStuct students[NUMBER_OF_STUDENTS];
+
+    
 }

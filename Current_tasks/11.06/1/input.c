@@ -42,10 +42,10 @@ void enterCredential(char *array)
  */
 void clearArray(char *array)
 {
+
     int arraySize = strlen(array);
     for (int i = 0; i < arraySize; i++)
     {
         array[i] = '\0';
     }
-    // array[MAXSIZE] = "";
 }

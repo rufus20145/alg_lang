@@ -24,7 +24,7 @@
 
 /**
  * @brief основная функция
- *
+ * 
  * @return int код ошибки в систему
  */
 int main()
@@ -45,14 +45,14 @@ int main()
     while (fopen(fileName, "r") == NULL)
     {
         printf("Ошибка в имени файла. Повторите попытку:");
+        clearArray(fileName, MAXSIZE);
         enterCredential(fileName);
     }
     printf("Выберите действие:\n1.Добавить данные студента\n2.Вывести данные всех студентов\n3.Очистить файл\n0.Выход из программы\n");
     do
     {
         scanf("%d", &action);
-        fflush(stdin);
-        // getchar(); // skip \n
+        fflush(stdin); //skip \n after entering digit
         switch (action)
         {
         case 1: //ввод данных нового студента
@@ -78,7 +78,7 @@ int main()
             while (!isalpha(group[0]) || !isalpha(group[7]) || !isdigit(group[1]) || !isalpha(group[2]) || !isdigit(group[4]) || !isdigit(group[5]) || !isdigit(group[6]) || !isdigit(group[9]) || !isdigit(group[10]))
             {
                 printf("Ошибка ввода. Повторите попытку.");
-                clearArray(group);
+                clearArray(group, MAXSIZE);
                 enterCredential(group);
             }
 
@@ -93,11 +93,11 @@ int main()
             strcat(resultString, "записан в файл.");
             printArray(resultString);
 
-            clearArray(surName); //очищаем строки после использования
-            clearArray(name);
-            clearArray(middleName);
-            clearArray(group);
-            clearArray(resultString);
+            clearArray(surName, MAXSIZE); //очищаем строки после использования
+            clearArray(name, MAXSIZE);
+            clearArray(middleName, MAXSIZE);
+            clearArray(group, MAXSIZE);
+            clearArray(resultString, MAXSIZE);
             break;
         }
         case 2: //вывод данных студентов из файла
@@ -137,7 +137,7 @@ int main()
         }
         default:
         {
-            printf("Ошибка. Повторите попытку");
+            printf("Ошибка. Повторите попытку.\n");
             break;
         }
         }
