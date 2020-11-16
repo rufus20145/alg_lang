@@ -24,7 +24,7 @@ int checkGroup(char *array)
         if (!isalpha(array[i]))
         {
             printf("Ошибка ввода. Повторите попытку. ");
-            clearArray(array);
+            clearArray(array, MAXSIZE);
             return 0;
         }
     }
@@ -47,7 +47,7 @@ int checkCredential(char *array)
         {
             // printf("%c не является буквой ", array[i]);
             printf("Ошибка ввода. Повторите попытку. ");
-            clearArray(array);
+            clearArray(array, MAXSIZE);
             return 0;
         }
     }

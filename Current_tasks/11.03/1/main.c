@@ -1,7 +1,7 @@
 /**
  * @file main.c
  * @author your name (you@domain.com)
- * @brief работа с файлами (fopen fclose fpintf 
+ * @brief работа с файлами (fopen fclose fpintf)
  * @version 0.1
  * @date 2020-11-03
  * 

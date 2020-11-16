@@ -40,10 +40,9 @@ void enterCredential(char *array)
  * 
  * @param array - массив для очистки
  */
-void clearArray(char *array)
+void clearArray(char *array, int arraySize)
 {
 
-    int arraySize = strlen(array);
     for (int i = 0; i < arraySize; i++)
     {
         array[i] = '\0';
