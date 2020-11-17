@@ -25,10 +25,7 @@
 #include "output.c"
 #include "functions.c"
 
-
-int main()
-{
-    struct studentStuct
+typedef struct
     {
         int listNumber;
         char surName[MAXSIZE];
@@ -37,14 +34,33 @@ int main()
         char group[MAXSIZE];
         int birthDay, birthMonth, birthYear;
         char email[MAXSIZE];
-    };
-    struct studentStuct students[NUMBER_OF_STUDENTS];
+    } studentStuct;
+
+int checkDatabase(char* fileName){
+    FILE* currFile;
+    char buffer[MAXSIZE];
+
+    currFile = fopen(fileName, "r");
+    fgets(buffer, MAXSIZE, currFile);
+    if('0' == buffer[0]) {//попробуй через strsrt() и strchr() https://server.179.ru/tasks/cpp/total/051.html
+    }
+    return 0;
+}
+
+void readDatabase(char* fileName, studentStuct* students) {
+
+}
+
+int main()
+{
+    
+    studentStuct students[NUMBER_OF_STUDENTS];
     char fileName[MAXSIZE] = "";
     FILE *currFile = NULL;
-    char action;
-    int errorCode;
+    char action = '\0';
+    int errorCode = 0;
 
-    system("cls"); //очищаем консоль перед работой программы
+    system("cls"); //очищаем консоль перед стартом программы
 
     setlocale(LC_ALL, "RUSSIAN");
     if (GetConsoleCP() != 1251)
@@ -53,11 +69,17 @@ int main()
         SetConsoleOutputCP(1251);
         printf("ConsoleCP was changed.\n");
     }
+
+    //выбираем файл, который будет использоваться
     do
     {
         errorCode = chooseFie(fileName);
     } while (1 == errorCode);
-    printArray(fileName);
+
+    checkDatabase(fileName);
+
+    // freadDatabase(fileName, students);
+
     printf(" Успех!");
     return 0;
 }
