@@ -55,24 +55,25 @@ int checkCredential(char *array)
     return 1;
 }
 
-
 /**
  * @brief функци€, провер€юща€ наличие базы данных в указаном файле
  * 
  * @param fileName им€ файла, в котором надо проверить базу данных
  * @return int код ошибки
  */
-int checkDatabase(char* fileName){
-    FILE* currFile;
+int checkDatabase(char *fileName)
+{
+    FILE *currFile = NULL;
     char buffer[MAXSIZE] = "", referenceString[MAXSIZE] = "0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail\n";
 
     currFile = fopen(fileName, "r");
     fgets(buffer, MAXSIZE, currFile);
-    // if('0' == buffer[0]) {//попробуй через strstr() и strchr() https://server.179.ru/tasks/cpp/total/051.html
-    // }
-    if(!strcmp(buffer, referenceString)) {
+    if (!strcmp(buffer, referenceString))
+    {
         return 0;
     }
-    else return 1;
-    
+    else
+    {
+        return 1;
+    }
 }

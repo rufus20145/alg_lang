@@ -29,6 +29,7 @@ int chooseFile(char* fileName)
             currFile = fopen(fileName, "r");
             printf("Файл успешно найден.\n");
             fclose(currFile);
+            printf("File recieved: %s\n", fileName);
             return 0;
         }
         break;
@@ -40,6 +41,7 @@ int chooseFile(char* fileName)
         if (fopen(fileName, "r") == NULL)
         {
             currFile = fopen(fileName, "w");
+            fputs("matrix", currFile);
             fclose(currFile);
             printf("Файл успешно создан.\n");
             return 0;
