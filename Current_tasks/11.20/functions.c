@@ -1,14 +1,3 @@
-/**
- * @file functions.c
- * @author rufus20145 (ivan20027749@gmail.com)
- * @brief файл с различными функциями, используемыми в 5 ПЗ
- * @version 0.1
- * @date 2020-11-17
- * 
- * @copyright Copyright (c) 2020
- * 
- */
-
 #include <stdio.h>
 
 /**

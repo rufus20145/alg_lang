@@ -26,34 +26,39 @@
 #include "functions.c"
 
 typedef struct
-    {
-        int listNumber;
-        char surName[MAXSIZE];
-        char name[MAXSIZE];
-        char middleName[MAXSIZE];
-        char group[MAXSIZE];
-        int birthDay, birthMonth, birthYear;
-        char email[MAXSIZE];
-    } studentStuct;
+{
+    int number;
+    char surName[MAXSIZE];
+    char name[MAXSIZE];
+    char middleName[MAXSIZE];
+    char group[MAXSIZE];
+    int birthDay, birthMonth, birthYear;
+    char email[MAXSIZE];
+} studentStuct;
 
-int checkDatabase(char* fileName){
-    FILE* currFile;
+void readDatabase(char *fileName, studentStuct *students)
+{
     char buffer[MAXSIZE];
+    FILE *currFile;
+    int studentNumber = 0;
 
     currFile = fopen(fileName, "r");
-    fgets(buffer, MAXSIZE, currFile);
-    if('0' == buffer[0]) {//попробуй через strsrt() и strchr() https://server.179.ru/tasks/cpp/total/051.html
+    fgets(NULL, MAXSIZE, currFile); //выкидываем первую строку, т.к. там проверочная строка
+    while (!feof(currFile))
+    {
+        fgets(buffer, MAXSIZE, currFile);
+        students[studentNumber].number = buffer[0];
+        printArray(buffer);
+        strcpy(buffer, strtok(buffer, ";"));
+        printArray(buffer);
+        // strncpy(students[studentNumber].name, )
+        studentNumber++;
     }
-    return 0;
-}
-
-void readDatabase(char* fileName, studentStuct* students) {
-
 }
 
 int main()
 {
-    
+
     studentStuct students[NUMBER_OF_STUDENTS];
     char fileName[MAXSIZE] = "";
     FILE *currFile = NULL;
@@ -73,13 +78,33 @@ int main()
     //выбираем файл, который будет использоваться
     do
     {
-        errorCode = chooseFie(fileName);
+        errorCode = chooseFile(fileName);
     } while (1 == errorCode);
 
-    checkDatabase(fileName);
+    //проверка наличия базы данных в файле
+    while (checkDatabase(fileName))
+    {
+        printf("В данном файле нет базы данных. Выберите пункт меню:\n1)Инициализировать базу данных.\n2)Выбрать новый файл");
+        action = getchar();
+        switch (action)
+        {
+            case '1':
+            fopen(fileName, "a");
+        case '2':
+        {
+            do
+            {
+                errorCode = chooseFile(fileName);
+            } while (1 == errorCode);
+            break;
+        }
+        }
+    }
+    printf("База данных обнаружена в файле. Начинаю чтение данных.\n");
 
-    // freadDatabase(fileName, students);
+    //чтение базы данных из файла и запись их в структуру
+    readDatabase(fileName, students);
 
-    printf(" Успех!");
+    printf("\n\nУспех!");
     return 0;
 }
