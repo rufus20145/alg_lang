@@ -88,11 +88,8 @@ int main()
         action = getchar();
         switch (action)
         {
-        case '1':
-            currFile = fopen(fileName, "a");
-            fputs("0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail\n", currFile);
-            fclose(currFile);
-            break;
+            case '1':
+            fopen(fileName, "a");
         case '2':
         {
             do
