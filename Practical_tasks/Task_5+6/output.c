@@ -1,21 +1,7 @@
 #ifndef OUTPUT
 #define OUTPUT
 
-#ifndef PARSER
-
-typedef struct
-{
-    int number;
-    char surName[MAXSIZE];
-    char name[MAXSIZE];
-    char middleName[MAXSIZE];
-    char group[MAXSIZE];
-    int birthDay, birthMonth, birthYear;
-    char email[MAXSIZE];
-} studentStuct;
-
-#endif // !PARSER
-
+#include "struct.c"
 
 
 /**
@@ -49,8 +35,9 @@ void printArray(char *array)
     }
 }
 
-printStudentData(studentStuct *structure)
+int printStudentData(studentStuct *structure)
 {
     printf("%d %s %s %s %s %d %d %d %s", structure->number, structure->surName, structure->name, structure->middleName, structure->group, structure->birthDay, structure->birthMonth, structure->birthYear, structure->email);
+    return 0;
 }
 #endif // !OUTPUT
