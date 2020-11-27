@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#define MAXSIZE 256
+
 /**
  * @brief функция проверки наличия заголовка в файле
  * 
@@ -15,7 +17,6 @@ int checkFile(char *fileName)
     currFile = fopen(fileName, "r");
     fflush(stdin);
     fgets(buffer, 7, currFile);
-    // printf("123:%d\n", strcmp(buffer, refString));
     if (!strcmp(buffer, refString))
     {
         printf("Матрица найдена.\n");
@@ -28,9 +29,3 @@ int checkFile(char *fileName)
         return 1; //поменять на 1
     }
 }
-
-/**
- * @brief 
- * 
- */
-

@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 /**
  * @file input.c
  * @author your name (you@domain.com)
