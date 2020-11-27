@@ -1,2 +1,1 @@
 0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail
-1;Муравьев;Иван;Алексеевич;М3О-135Б-20;06;07;2002;ivan2002777749@gmail.com

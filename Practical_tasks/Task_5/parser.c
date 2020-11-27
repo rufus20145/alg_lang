@@ -1,4 +1,7 @@
+#ifndef PARSER
+#define PARSER
 /**
+ * 
  * @file parser.c
  * @author your name (you@domain.com)
  * @brief файл с функц€ми проверки введенных значений
@@ -8,6 +11,19 @@
  * @copyright Copyright (c) 2020
  * 
  */
+
+#include "output.c"
+
+typedef struct
+{
+    int number;
+    char surName[MAXSIZE];
+    char name[MAXSIZE];
+    char middleName[MAXSIZE];
+    char group[MAXSIZE];
+    int birthDay, birthMonth, birthYear;
+    char email[MAXSIZE];
+} studentStuct;
 
 /**
  * @brief функци€ проверки номера группы
@@ -58,8 +74,8 @@ int checkCredential(char *array)
 /**
  * @brief функци€, провер€юща€ наличие базы данных в указаном файле
  * 
- * @param fileName им€ файла, в котором надо проверить базу данных
- * @return int код ошибки
+ * @param fileName им€ файла дл€ проверки
+ * @return int код ошибки (0 - ошибки нет, 1 - ошибка есть)
  */
 int checkDatabase(char *fileName)
 {
@@ -70,10 +86,101 @@ int checkDatabase(char *fileName)
     fgets(buffer, MAXSIZE, currFile);
     if (!strcmp(buffer, referenceString))
     {
-        return 0;
+        fclose(currFile);
+        return 0; //строка есть
     }
     else
     {
-        return 1;
+        fclose(currFile);
+        return 1; //строки нет
     }
 }
+
+/**
+ * @brief функци€ чтени€ базы данных студентов из файла и записи 
+ * 
+ * @param fileName им€ файла с базой данных
+ * @param students структура, в которую надо записать студентов
+ */
+void readDatabase(char *fileName, studentStuct *students)
+{
+    char buffer[MAXSIZE] = "";
+    char *flag = NULL;
+    FILE *currFile = NULL;
+    int studentNumber = 0, trashString = 0, fieldNumber = 0;
+
+    currFile = fopen(fileName, "r");
+    while (!feof(currFile))
+    {
+        if (0 == trashString) //необходимо выкинуть 1 строку, т.к. в ней образец
+        {
+            fgets(buffer, MAXSIZE, currFile);
+            trashString = 1;
+        }
+        flag = fgets(buffer, MAXSIZE, currFile);
+        buffer[strlen(buffer) - 1] = '\0';
+        if (flag != NULL)
+        {
+            char *separatedBuffer = "";
+            separatedBuffer = strtok(buffer, ";");
+            while (NULL != separatedBuffer)
+            {
+                switch (fieldNumber)
+                {
+                case 0:
+                {
+                    students[studentNumber].number = atoi(separatedBuffer);
+                    break;
+                }
+                case 1:
+                {
+                    strcpy(students[studentNumber].surName, separatedBuffer);
+                    break;
+                }
+                case 2:
+                {
+                    strcpy(students[studentNumber].name, separatedBuffer);
+                    break;
+                }
+                case 3:
+                {
+                    strcpy(students[studentNumber].middleName, separatedBuffer);
+                    break;
+                }
+                case 4:
+                {
+                    strcpy(students[studentNumber].group, separatedBuffer);
+                    break;
+                }
+                case 5:
+                {
+                    students[studentNumber].birthDay = atoi(separatedBuffer);
+                    break;
+                }
+                case 6:
+                {
+                    students[studentNumber].birthMonth = atoi(separatedBuffer);
+                    break;
+                }
+                case 7:
+                {
+                    students[studentNumber].birthYear = atoi(separatedBuffer);
+                    break;
+                }
+                case 8:
+                {
+                    strcpy(students[studentNumber].email, separatedBuffer);
+                    break;
+                }
+                default:
+                    break;
+                }
+                separatedBuffer = strtok(NULL, ";");
+                fieldNumber++;
+            }
+            studentNumber++;
+            fieldNumber = 0;
+        }
+    }
+}
+#endif // !PARSER

@@ -35,6 +35,7 @@ void enterCredential(char *array)
     }
 }
 
+
 /**
  * @brief функция для очистки массива
  * 

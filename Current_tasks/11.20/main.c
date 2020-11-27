@@ -24,29 +24,24 @@
 
 #define MAXSIZE 256
 
-int checkFile(char *fileName)
-{
-    // printf("File 123recieved: %s\n", fileName);
-    FILE *currFile = NULL;
-    char buffer[MAXSIZE] = "", refString[MAXSIZE] = "matrix";
-
-    currFile = fopen(fileName, "r");
-    fgets(buffer, MAXSIZE, currFile);
-    if (!strcmp(buffer, refString))
-    {
-        printf("Матрица найдена.\n");
-        return 0;
-    }
-    else
-    {
-        return 1;
-    }
-}
 typedef struct
 {
-    char array[MAXSIZE][MAXSIZE];
-    int maxElementRaw, maxElementColumn, firstSum, secondSum;
+    int array[MAXSIZE][MAXSIZE];
+    int height, width;
+    int maxElementRaw, maxElementColumn, minElementRaw, minElementColumn, firstSum, secondSum;
 } matrixes;
+
+void printMatrix(matrixes matrix)
+{
+    for (int i = 0; i < matrix.height; i++)
+    {
+        for (int j = 0; j < matrix.width; j++)
+        {
+            printf("%d ", matrix.array[i][j]);
+        }
+        printf("\n");
+    }
+}
 
 int main()
 {
@@ -59,8 +54,9 @@ int main()
     setlocale(LC_ALL, "RUSSIAN");
     matrixes matrix;
     char fileName[MAXSIZE] = "";
+    char buffer[MAXSIZE] = "";
     FILE *currFile = NULL;
-    int inputErrorCode = 0, errorCode = 0;
+    int inputErrorCode = 0, errorCode = 0, flag = 0, matrixWidth = 0;
 
     do //ввод имени файла
     {
@@ -79,5 +75,48 @@ int main()
                 inputErrorCode = chooseFile(fileName);
             } while (1 == inputErrorCode);
         }
+        else
+        {
+            printf("Матрица обнаружена. Начинаю запись в структуру.\n");
+        }
     } while (1 == errorCode);
+
+    fflush(stdin);
+    currFile = fopen(fileName, "r");
+
+    matrix.width = 0;
+    matrix.height = -1;
+
+    while (!feof(currFile))
+    {
+        if (0 == flag)
+        {
+            fgets(buffer, MAXSIZE, currFile);
+            flag = 1;
+        }
+        fgets(buffer, MAXSIZE, currFile);
+        buffer[strlen(buffer) - 1] = '\0';
+        if (!feof(currFile))
+        {
+            char *separatedBuffer = "";
+            separatedBuffer = strtok(buffer, ";");
+            while (NULL != separatedBuffer)
+            {
+                matrix.array[matrix.height+1][matrixWidth] = atoi(separatedBuffer);
+                matrixWidth++;
+                separatedBuffer = strtok(NULL, ";");
+            }
+            
+            matrix.width = matrixWidth;
+            matrixWidth = 0;
+
+        }
+        matrix.height++;
+    }
+    printMatrix(matrix);
+    printf("Ширина: %d\n", matrix.width);
+    printf("Высота: %d\n", matrix.height);
+    fclose(currFile);
+    printf("Конец.\n");
+    return 0;
 }
