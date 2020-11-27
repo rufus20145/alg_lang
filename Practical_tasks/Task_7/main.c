@@ -102,20 +102,52 @@ int main()
             separatedBuffer = strtok(buffer, ";");
             while (NULL != separatedBuffer)
             {
-                matrix.array[matrix.height+1][matrixWidth] = atoi(separatedBuffer);
+                matrix.array[matrix.height + 1][matrixWidth] = atoi(separatedBuffer);
                 matrixWidth++;
                 separatedBuffer = strtok(NULL, ";");
             }
-            
+
             matrix.width = matrixWidth;
             matrixWidth = 0;
-
         }
         matrix.height++;
     }
+
+    //поиск минимального и максимального элементов, а также суммы четных и нечетных
+    matrix.minElementRaw = matrix.minElementColumn = 0;
+    matrix.maxElementRaw = matrix.maxElementColumn = 0;
+    matrix.firstSum = matrix.secondSum = 0;
+
+    for (int i = 0; i < matrix.height; i++)
+    {
+        for (int j = 0; j < matrix.width; j++)
+        {
+            if (matrix.array[i][j] > matrix.array[matrix.maxElementRaw][matrix.maxElementColumn])
+            {
+                matrix.maxElementRaw = i;
+                matrix.maxElementColumn = j;
+            }
+            if (matrix.array[i][j] < matrix.array[matrix.minElementRaw][matrix.minElementColumn])
+            {
+                matrix.minElementRaw = i;
+                matrix.minElementColumn = j;
+            }
+            if ((matrix.array[i][j] % 2) == 0)
+            {
+                matrix.firstSum += matrix.array[i][j];
+            }
+            else
+            {
+                matrix.secondSum += matrix.array[i][j];
+            }
+        }
+    }
+    printf("\nПрочитана следующая матрица:\n");
     printMatrix(matrix);
     printf("Ширина: %d\n", matrix.width);
     printf("Высота: %d\n", matrix.height);
+    printf("Минимальный элемент [%d][%d] = %d, максимальный элемент [%d][%d] = %d\n", matrix.minElementRaw + 1, matrix.minElementColumn + 1, matrix.array[matrix.minElementRaw][matrix.minElementColumn], matrix.maxElementRaw + 1, matrix.maxElementColumn + 1, matrix.array[matrix.maxElementRaw][matrix.maxElementColumn]);
+    printf("Сумма четных элементов: %d, сумма нечетных: %d\n", matrix.firstSum, matrix.secondSum);
     fclose(currFile);
     printf("Конец.\n");
     return 0;
