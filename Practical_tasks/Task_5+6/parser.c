@@ -107,7 +107,10 @@ void readDatabase(char *fileName, studentStuct *students)
             trashString = 1;
         }
         flag = fgets(buffer, MAXSIZE, currFile);
-        buffer[strlen(buffer) - 1] = '\0';
+        if (buffer[strlen(buffer) - 1] == '\n')
+        {
+            buffer[strlen(buffer) - 1] = '\0';
+        }
         if (flag != NULL)
         {
             char *separatedBuffer = "";

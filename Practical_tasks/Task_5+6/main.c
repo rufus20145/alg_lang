@@ -94,7 +94,11 @@ int main()
         {
         case '1':
         {
-            printf("123");
+            printStudentData(students[0]);
+            printStudentData(students[1]);
+        }
+        case '2':
+        {
         }
         }
         fflush(stdin);

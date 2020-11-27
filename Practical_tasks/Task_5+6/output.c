@@ -1,8 +1,8 @@
 #ifndef OUTPUT
 #define OUTPUT
+#define BIGSTRING_SIZE 1024
 
 #include "struct.c"
-
 
 /**
  * @brief 
@@ -35,9 +35,63 @@ void printArray(char *array)
     }
 }
 
-int printStudentData(studentStuct *structure)
+/**
+ * @brief функция для вывода информации о студенте на экран
+ * 
+ * @param structure структура с данными студента
+ * @return int 
+ */
+void printStudentData(studentStuct structure)
 {
-    printf("%d %s %s %s %s %d %d %d %s", structure->number, structure->surName, structure->name, structure->middleName, structure->group, structure->birthDay, structure->birthMonth, structure->birthYear, structure->email);
-    return 0;
+    char resultString[BIGSTRING_SIZE] = "", buffer[MAXSIZE] = "";
+
+    sprintf(buffer, "%d", structure.number);
+    strcat(resultString, buffer);
+    strcat(resultString, ".");
+    strcat(resultString, structure.surName);
+
+    strcat(resultString, "\t");
+    strcat(resultString, structure.name);
+
+    strcat(resultString, "\t");
+    strcat(resultString, structure.middleName);
+
+    strcat(resultString, "\t");
+    strcat(resultString, structure.group);
+
+    strcat(resultString, "\t");
+    if (structure.birthDay < 10) //нужно получить 06., а не 6.
+    {
+        char temp[MAXSIZE / 8];
+        strcpy(buffer, "0");
+        sprintf(temp, "%d", structure.birthDay);
+        strcat(buffer, temp);
+    }
+    else
+    {
+        sprintf(buffer, "%d", structure.birthDay);
+    }
+    strcat(resultString, buffer);
+    strcat(resultString, ".");
+    if (structure.birthMonth < 10) //нужно получить 06., а не 6.
+    {
+        char temp[MAXSIZE / 8];
+        strcpy(buffer, "0");
+        sprintf(temp, "%d", structure.birthMonth);
+        strcat(buffer, temp);
+    }
+    else
+    {
+        sprintf(buffer, "%d", structure.birthMonth);
+    }
+    strcat(resultString, buffer);
+    strcat(resultString, ".");
+    sprintf(buffer, "%d", structure.birthYear);
+    strcat(resultString, buffer);
+
+    strcat(resultString, "\t");
+    strcat(resultString, structure.email);
+
+    printArray(resultString);
 }
 #endif // !OUTPUT
