@@ -70,7 +70,7 @@ int checkDatabase(const char *fileName)
  * @param fileName имя файла с базой данных
  * @param students структура, в которую надо записать студентов
  */
-void readDatabase(const char *fileName, studentStuct *students)
+void readDatabase(const char *fileName, studentStuct *students, int* NumberOfStudents)
 {
     char buffer[MAXSIZE] = "";
     char *flag = NULL;
@@ -153,5 +153,11 @@ void readDatabase(const char *fileName, studentStuct *students)
             fieldNumber = 0;
         }
     }
+    *NumberOfStudents = studentNumber;
 }
+
+void deleteStudentData(studentStuct structure){
+    structure
+}
+
 #endif // !PARSER

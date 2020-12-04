@@ -41,7 +41,7 @@ void printArray(char *array)
  * @param structure структура с данными студента
  * @return int 
  */
-void printStudentData(studentStuct structure)
+void printStudentData(const studentStuct structure)
 {
     char resultString[BIGSTRING_SIZE] = "", buffer[MAXSIZE] = "";
 

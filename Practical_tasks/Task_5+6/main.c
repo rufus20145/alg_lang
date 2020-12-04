@@ -29,8 +29,8 @@ int main()
     studentStuct students[NUMBER_OF_STUDENTS];
     char fileName[MAXSIZE] = "";
     // FILE *currFile = NULL;
-    char action = '\0';
-    int inputErrorCode = 0;
+    int action = 0;
+    int inputErrorCode = 0, numberOfStudents = 0;
 
     system("cls"); //очищаем консоль перед стартом программы
 
@@ -53,8 +53,10 @@ int main()
     while (checkDatabase(fileName))
     {
         printf("В данном файле нет базы данных. Выберите действие:\n1)Инициализировать базу данных (файл будет очищен).\n2)Выбрать новый файл.\n");
-        action = getchar();
-        fflush(stdin);
+        do
+        {
+            inputErrorCode = enterNumber(&action);
+        } while (inputErrorCode == 1);
         switch (action)
         {
         case '1': //инициализация базы данных в файле с предварительной очисткой
@@ -84,9 +86,10 @@ int main()
     printf("База данных обнаружена в файле. Начинаю чтение данных.\n");
 
     //чтение базы данных из файла и запись их в структуру
-    readDatabase(fileName, students);
+    readDatabase(fileName, students, &numberOfStudents);
     printf("Данные успешно прочитаны и записаны в структуру.\n");
 
+    printf("%d\n\n\n", numberOfStudents);
     do
     {
         printf("\nВыберите действие:\n1)Вывести информацию о студентах на экран.\n2)Добавить студента в базу данных.\n3)Удалить информацию о студенте из базы данных.\n4)Очистить базу данных.\n5)Выбрать новый файл\n0)Выход из программы.\n");
@@ -107,7 +110,6 @@ int main()
         }
         case '2':
         {
-            
         }
         case '5':
         {
@@ -116,6 +118,55 @@ int main()
                 clearArray(fileName, MAXSIZE);
                 inputErrorCode = chooseFile(fileName);
             } while (1 == inputErrorCode);
+
+            //проверка наличия базы данных в файле
+            while (checkDatabase(fileName))
+            {
+                printf("В данном файле нет базы данных. Выберите действие:\n1)Инициализировать базу данных (файл будет очищен).\n2)Выбрать новый файл.\n");
+                do
+                {
+                    inputErrorCode = enterNumber(&action);
+                } while (inputErrorCode == 1);
+                switch (action)
+                {
+                case '1': //инициализация базы данных в файле с предварительной очисткой
+                {
+                    char refString[MAXSIZE] = "0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail";
+                    FILE *currFile = fopen(fileName, "w");
+                    fputs(refString, currFile);
+                    fclose(currFile);
+                    break;
+                }
+                case '2': //выбор нового файла
+                {
+                    do
+                    {
+                        clearArray(fileName, MAXSIZE);
+                        inputErrorCode = chooseFile(fileName);
+                    } while (1 == inputErrorCode);
+                    break;
+                }
+                default:
+                {
+                    printf("\nНеизвестная операция. Повторите попытку.\n");
+                    break;
+                }
+                }
+            }
+            printf("База данных обнаружена в файле. Начинаю чтение данных.\n");
+
+            //очистка структуры для записи данных из нового файла
+            int currStudentNumber = 0;
+            while (students[currStudentNumber].number != 0)
+            {
+                deleteStudentData(students[currStudentNumber]);
+                currStudentNumber++;
+            }
+
+            //чтение базы данных из файла и запись их в структуру
+            readDatabase(fileName, students, &numberOfStudents);
+            printf("%d\n\n\n", numberOfStudents);//123
+            printf("Данные успешно прочитаны и записаны в структуру.\n\n");
             break;
         }
         }

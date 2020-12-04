@@ -15,6 +15,20 @@
 
 #define MAXSIZE 256
 
+int enterNumber(int* number){
+    char buffer[MAXSIZE];
+    fgets(buffer, MAXSIZE, stdin);
+    buffer[strlen(buffer)-1] = '\0';
+    int bufferLength = strlen(buffer);
+    for(int i = 0; i < bufferLength; i++){
+        if(isdigit(buffer[i])){
+            return 1;//ошибка, в строке есть не только цифры
+        }
+    }
+    *number = atoi(buffer);
+    return 0;
+}
+
 /**
  * @brief функция ввода ФИО и номера группы
  * 
