@@ -62,7 +62,7 @@ int chooseFile(char *fileName)
 {
     FILE *currFile = NULL;
     char action;
-
+    
     printf("Выберите пункт меню:\n1)Выбрать существующий файл.\n2)Создать новый файл/очистить существующий.\n");
     action = getchar();
     fflush(stdin);
@@ -93,9 +93,17 @@ int chooseFile(char *fileName)
         if (fopen(fileName, "r") == NULL)
         {
             currFile = fopen(fileName, "w");
-            fclose(currFile);
-            printf("Файл успешно создан.\n");
-            return 0;
+            if (NULL == currFile)
+            {
+                printf("Ошибка создания файла. Повторите попытку.\n");
+                return 1;
+            }
+            else
+            {
+                fclose(currFile);
+                printf("Файл успешно создан.\n");
+                return 0;
+            }
         }
         else
         {

@@ -45,6 +45,7 @@ int main()
     //выбираем файл, который будет использоваться
     do
     {
+        clearArray(fileName, MAXSIZE);
         inputErrorCode = chooseFile(fileName);
     } while (1 == inputErrorCode);
 
@@ -68,6 +69,7 @@ int main()
         {
             do
             {
+                clearArray(fileName, MAXSIZE);
                 inputErrorCode = chooseFile(fileName);
             } while (1 == inputErrorCode);
             break;
@@ -87,18 +89,34 @@ int main()
 
     do
     {
-        printf("\nВыберите действие:\n1)Вывести информацию о студентах на экран.\n2)Добавить студента в базу данных.\n3)Удалить информацию о студенте из базы данных.\n4)Очистить базу данных.\n0)Выход из программы.\n");
+        printf("\nВыберите действие:\n1)Вывести информацию о студентах на экран.\n2)Добавить студента в базу данных.\n3)Удалить информацию о студенте из базы данных.\n4)Очистить базу данных.\n5)Выбрать новый файл\n0)Выход из программы.\n");
         action = getchar();
         fflush(stdin);
         switch (action)
         {
         case '1':
         {
-            printStudentData(students[0]);
-            printStudentData(students[1]);
+            int currStudentNumber = 0;
+            while (students[currStudentNumber].number != 0)
+            {
+                printStudentData(students[currStudentNumber]);
+                currStudentNumber++;
+            }
+            printf("Вывод заверешен.\n");
+            break;
         }
         case '2':
         {
+            
+        }
+        case '5':
+        {
+            do
+            {
+                clearArray(fileName, MAXSIZE);
+                inputErrorCode = chooseFile(fileName);
+            } while (1 == inputErrorCode);
+            break;
         }
         }
         fflush(stdin);

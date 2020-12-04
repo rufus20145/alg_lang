@@ -14,27 +14,6 @@
 
 #include "output.c"
 
-/**
- * @brief функция проверки номера группы
- * 
- * @param array массив с номером группы для проверки
- * @return int результат проверки
- */
-int checkGroup(char *array)
-{
-    int arraySize = strlen(array);
-    arraySize--; // при вводе мы добавляем пробел в конеци его не надо проверять на букву
-    for (int i = 0; i < arraySize; i++)
-    {
-        if (!isalpha(array[i]))
-        {
-            printf("Ошибка ввода. Повторите попытку. ");
-            clearArray(array, MAXSIZE);
-            return 0;
-        }
-    }
-    return 1;
-}
 
 /**
  * @brief функция проверки ФИО
@@ -66,7 +45,7 @@ int checkCredential(char *array)
  * @param fileName имя файла для проверки
  * @return int код ошибки (0 - ошибки нет, 1 - ошибка есть)
  */
-int checkDatabase(char *fileName)
+int checkDatabase(const char *fileName)
 {
     FILE *currFile = NULL;
     char buffer[MAXSIZE] = "", referenceString[MAXSIZE] = "0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail\n";
@@ -91,7 +70,7 @@ int checkDatabase(char *fileName)
  * @param fileName имя файла с базой данных
  * @param students структура, в которую надо записать студентов
  */
-void readDatabase(char *fileName, studentStuct *students)
+void readDatabase(const char *fileName, studentStuct *students)
 {
     char buffer[MAXSIZE] = "";
     char *flag = NULL;
