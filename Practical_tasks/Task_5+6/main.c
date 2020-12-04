@@ -42,6 +42,12 @@ int main()
         printf("ConsoleCP was changed.\n");
     }
 
+    //инициализируем номера студентов
+    for (int i = 0; i < NUMBER_OF_STUDENTS; i++)
+    {
+        students[i].number = -1;
+    }
+
     //выбираем файл, который будет использоваться
     do
     {
@@ -87,9 +93,9 @@ int main()
 
     //чтение базы данных из файла и запись их в структуру
     readDatabase(fileName, students, &numberOfStudents);
-    printf("Данные успешно прочитаны и записаны в структуру.\n");
+    printf("Данные успешно прочитаны и записаны в структуру. Количество студентов: %d\n", numberOfStudents);
 
-    printf("%d\n\n\n", numberOfStudents);
+    //основное меню программы
     do
     {
         printf("\nВыберите действие:\n1)Вывести информацию о студентах на экран.\n2)Добавить студента в базу данных.\n3)Удалить информацию о студенте из базы данных.\n4)Очистить базу данных.\n5)Выбрать новый файл\n0)Выход из программы.\n");
@@ -100,16 +106,26 @@ int main()
         case '1':
         {
             int currStudentNumber = 0;
-            while (students[currStudentNumber].number != 0)
+            if (students[currStudentNumber].number != -1)
             {
-                printStudentData(students[currStudentNumber]);
-                currStudentNumber++;
+                while (students[currStudentNumber].number != -1)
+                {
+                    printStudentData(students[currStudentNumber]);
+                    currStudentNumber++;
+                }
             }
-            printf("Вывод заверешен.\n");
+            else
+            {
+                printf("В структуре нет данных о студентах. Для начала добавьте их.\n");
+            }
+            printf("Вывод заверешен. Нажмите Enter, чтобы продолжить.");
+            getchar();
+            fflush(stdin);
             break;
         }
         case '2':
         {
+            break;
         }
         case '5':
         {
@@ -157,16 +173,15 @@ int main()
 
             //очистка структуры для записи данных из нового файла
             int currStudentNumber = 0;
-            while (students[currStudentNumber].number != 0)
+            while (students[currStudentNumber].number != -1)
             {
-                deleteStudentData(students[currStudentNumber]);
+                deleteStudentData(&students[currStudentNumber]);
                 currStudentNumber++;
             }
 
             //чтение базы данных из файла и запись их в структуру
             readDatabase(fileName, students, &numberOfStudents);
-            printf("%d\n\n\n", numberOfStudents);//123
-            printf("Данные успешно прочитаны и записаны в структуру.\n\n");
+            printf("Данные успешно прочитаны и записаны в структуру. Количество студентов: %d\n", numberOfStudents);
             break;
         }
         }

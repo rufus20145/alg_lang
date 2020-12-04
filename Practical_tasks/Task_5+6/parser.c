@@ -14,7 +14,6 @@
 
 #include "output.c"
 
-
 /**
  * @brief функция проверки ФИО
  * 
@@ -70,7 +69,7 @@ int checkDatabase(const char *fileName)
  * @param fileName имя файла с базой данных
  * @param students структура, в которую надо записать студентов
  */
-void readDatabase(const char *fileName, studentStuct *students, int* NumberOfStudents)
+void readDatabase(const char *fileName, studentStuct *students, int *NumberOfStudents)
 {
     char buffer[MAXSIZE] = "";
     char *flag = NULL;
@@ -156,8 +155,17 @@ void readDatabase(const char *fileName, studentStuct *students, int* NumberOfStu
     *NumberOfStudents = studentNumber;
 }
 
-void deleteStudentData(studentStuct structure){
-    structure
+void deleteStudentData(studentStuct *structure)
+{
+    structure->number = -1;
+    clearArray(structure->name, MAXSIZE);
+    clearArray(structure->surName, MAXSIZE);
+    clearArray(structure->middleName, MAXSIZE);
+    clearArray(structure->group, MAXSIZE);
+    structure->birthDay = 0;
+    structure->birthMonth = 0;
+    structure->birthYear = 0;
+    clearArray(structure->email, MAXSIZE);
 }
 
 #endif // !PARSER

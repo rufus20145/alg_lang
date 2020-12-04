@@ -9,6 +9,7 @@
 				"-g",
 				"${fileDirname}\\main.c",
 				"-Wall",
+				"-Wextra",
 				"-o",
 				"${fileDirname}\\main.exe"
 			],

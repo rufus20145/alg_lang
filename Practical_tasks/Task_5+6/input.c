@@ -15,6 +15,12 @@
 
 #define MAXSIZE 256
 
+/**
+ * @brief функция ввода числа с проверкой ввода
+ * 
+ * @param *number указатель на число в вызывающей функции
+ * @return int код ошибки
+ */
 int enterNumber(int* number){
     char buffer[MAXSIZE];
     fgets(buffer, MAXSIZE, stdin);
