@@ -37,7 +37,7 @@ void printMatrix(matrixes matrix)
     {
         for (int j = 0; j < matrix.width; j++)
         {
-            printf("%d ", matrix.array[i][j]);
+            printf("%d\t", matrix.array[i][j]);
         }
         printf("\n");
     }

@@ -21,18 +21,31 @@
  * @param *number указатель на число в вызывающей функции
  * @return int код ошибки
  */
-int enterNumber(int* number){
+int enterNumber(int *number)
+{
     char buffer[MAXSIZE];
     fgets(buffer, MAXSIZE, stdin);
-    buffer[strlen(buffer)-1] = '\0';
+    buffer[strlen(buffer) - 1] = '\0';
     int bufferLength = strlen(buffer);
-    for(int i = 0; i < bufferLength; i++){
-        if(isdigit(buffer[i])){
-            return 1;//ошибка, в строке есть не только цифры
+    if (bufferLength)
+    {
+        for (int i = 0; i < bufferLength; i++)
+        {
+            if (!isdigit(buffer[i]))
+            {
+                printf("Ошибка! Во вводе обнаружены символы, отличные от цифр.\n");
+                return 1; //ошибка, в строке есть не только цифры
+            }
         }
+        *number = atoi(buffer);
+        return 0;
     }
-    *number = atoi(buffer);
-    return 0;
+    else
+    {
+        printf("Вы не ввели ни одного символа, повторите попытку. ");
+        return 1;
+    }
+    
 }
 
 /**
@@ -81,14 +94,17 @@ void clearArray(char *array, int arraySize)
 int chooseFile(char *fileName)
 {
     FILE *currFile = NULL;
-    char action;
-    
+    int action;
+    int inputErrorCode = 0;
+
     printf("Выберите пункт меню:\n1)Выбрать существующий файл.\n2)Создать новый файл/очистить существующий.\n");
-    action = getchar();
-    fflush(stdin);
+    do
+    {
+        inputErrorCode = enterNumber(&action);
+    } while (inputErrorCode == 1);
     switch (action)
     {
-    case '1': //выбор существующего файла
+    case 1: //выбор существующего файла
     {
         printf("Введите имя существующего файла: ");
         enterCredential(fileName);
@@ -106,7 +122,7 @@ int chooseFile(char *fileName)
         }
         break;
     }
-    case '2': //создание нового файла
+    case 2: //создание нового файла
     {
         printf("Введите имя файла, который необходимо создать: ");
         enterCredential(fileName);
@@ -120,8 +136,10 @@ int chooseFile(char *fileName)
             }
             else
             {
+                char refString[MAXSIZE] = "0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail\n";
+                fputs(refString, currFile);
                 fclose(currFile);
-                printf("Файл успешно создан.\n");
+                printf("Файл успешно создан. База данных инициализирована.\n");
                 return 0;
             }
         }
@@ -131,6 +149,8 @@ int chooseFile(char *fileName)
             if (getchar() == '1')
             {
                 currFile = fopen(fileName, "w");
+                char refString[MAXSIZE] = "0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail\n";
+                fputs(refString, currFile);
                 fclose(currFile);
                 fflush(stdin);
                 printf("Файл успешно очищен.\n");
@@ -149,7 +169,6 @@ int chooseFile(char *fileName)
     }
     default: //введен другой символ
     {
-        // system("cls");
         printf("\nНезивестная операция. Повторите попытку.\n");
         return 1;
         break;

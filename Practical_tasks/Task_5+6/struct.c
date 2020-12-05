@@ -8,6 +8,6 @@ typedef struct
     char group[MAXSIZE];
     int birthDay, birthMonth, birthYear;
     char email[MAXSIZE];
-} studentStuct;
+} studentStruct;
 
 #endif // !STRUCT

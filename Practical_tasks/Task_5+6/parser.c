@@ -69,7 +69,7 @@ int checkDatabase(const char *fileName)
  * @param fileName имя файла с базой данных
  * @param students структура, в которую надо записать студентов
  */
-void readDatabase(const char *fileName, studentStuct *students, int *NumberOfStudents)
+void readDatabase(const char *fileName, studentStruct *students, int *NumberOfStudents)
 {
     char buffer[MAXSIZE] = "";
     char *flag = NULL;
@@ -150,12 +150,18 @@ void readDatabase(const char *fileName, studentStuct *students, int *NumberOfStu
             }
             studentNumber++;
             fieldNumber = 0;
+            Sleep(500);
         }
     }
     *NumberOfStudents = studentNumber;
 }
 
-void deleteStudentData(studentStuct *structure)
+/**
+ * @brief функция для очистки структуры с данными о студента 
+ * 
+ * @param structure указатель на структуру, в которой надо удалить данные
+ */
+void deleteStudentData(studentStruct *structure)
 {
     structure->number = -1;
     clearArray(structure->name, MAXSIZE);
@@ -166,6 +172,20 @@ void deleteStudentData(studentStuct *structure)
     structure->birthMonth = 0;
     structure->birthYear = 0;
     clearArray(structure->email, MAXSIZE);
+    Sleep(500);
+}
+
+void moveStudentData(studentStruct *destination, const studentStruct source)
+{
+    destination->number = source.number - 1;
+    strcpy(destination->name, source.name);
+    strcpy(destination->surName, source.surName);
+    strcpy(destination->middleName, source.middleName);
+    strcpy(destination->group, source.group);
+    destination->birthDay = source.birthDay;
+    destination->birthMonth = source.birthMonth;
+    destination->birthYear = source.birthYear;
+    strcpy(destination->email, source.email);
 }
 
 #endif // !PARSER
