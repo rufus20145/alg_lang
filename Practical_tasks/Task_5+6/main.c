@@ -19,6 +19,7 @@
 #include <string.h>
 #include <locale.h>
 #include <windows.h>
+#include <time.h>
 
 #include "input.c"
 #include "parser.c"
@@ -178,6 +179,7 @@ int main()
         }
         case 4:
         {
+            srand(time(NULL));
             int deleteKey = rand() % 100, number = 0, wrongPasses = 0, numberOfPasses = 3;
             printf("Это действие нельзя отменить. Введите %d, чтобы очистить базу данных.\nКоличество попыток: %d.\n", deleteKey, numberOfPasses);
 
@@ -201,7 +203,7 @@ int main()
                 }
                 numberOfStudents = 0;
                 printf("Очистка завершена. Нажмите Enter, чтобы продолжить.\n");
-                showMenu += 3;
+                showMenu += 6;
                 getchar();
                 fflush(stdin);
             }
