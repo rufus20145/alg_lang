@@ -50,16 +50,16 @@ void printStudentData(const studentStruct structure)
     strcat(resultString, ".");
     strcat(resultString, structure.surName);
 
-    strcat(resultString, "\t");
+    strcat(resultString, "  ");
     strcat(resultString, structure.name);
 
-    strcat(resultString, "\t");
+    strcat(resultString, "  ");
     strcat(resultString, structure.middleName);
 
-    strcat(resultString, "\t");
+    strcat(resultString, "  ");
     strcat(resultString, structure.group);
 
-    strcat(resultString, "\t");
+    strcat(resultString, "  ");
     if (structure.birthDay < 10) //нужно получить 06., а не 6.
     {
         char temp[MAXSIZE / 8];
@@ -89,7 +89,7 @@ void printStudentData(const studentStruct structure)
     sprintf(buffer, "%d", structure.birthYear);
     strcat(resultString, buffer);
 
-    strcat(resultString, "\t");
+    strcat(resultString, "  ");
     strcat(resultString, structure.email);
 
     printArray(resultString);

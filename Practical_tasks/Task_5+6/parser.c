@@ -150,7 +150,7 @@ void readDatabase(const char *fileName, studentStruct *students, int *NumberOfSt
             }
             studentNumber++;
             fieldNumber = 0;
-            Sleep(500);
+            Sleep(300);
         }
     }
     *NumberOfStudents = studentNumber;
@@ -172,7 +172,7 @@ void deleteStudentData(studentStruct *structure)
     structure->birthMonth = 0;
     structure->birthYear = 0;
     clearArray(structure->email, MAXSIZE);
-    Sleep(500);
+    Sleep(300);
 }
 
 void moveStudentData(studentStruct *destination, const studentStruct source)
@@ -186,6 +186,7 @@ void moveStudentData(studentStruct *destination, const studentStruct source)
     destination->birthMonth = source.birthMonth;
     destination->birthYear = source.birthYear;
     strcpy(destination->email, source.email);
+    Sleep(150);
 }
 
 #endif // !PARSER

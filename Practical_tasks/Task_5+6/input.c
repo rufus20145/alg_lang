@@ -45,7 +45,6 @@ int enterNumber(int *number)
         printf("Вы не ввели ни одного символа, повторите попытку. ");
         return 1;
     }
-    
 }
 
 /**
@@ -87,9 +86,9 @@ void clearArray(char *array, int arraySize)
 }
 
 /**
- * @brief функция ввода имени или создания нового файла
+ * @brief функция ввода имени существующего или создания нового файла
  * 
- * @return int код ошибки (0 нет ошибки, 1 есть ошибка)
+ * @return int код ошибки (0 нет ошибки, 1 есть ошибка, 2 ввод отменён)
  */
 int chooseFile(char *fileName)
 {
@@ -97,7 +96,7 @@ int chooseFile(char *fileName)
     int action;
     int inputErrorCode = 0;
 
-    printf("Выберите пункт меню:\n1)Выбрать существующий файл.\n2)Создать новый файл/очистить существующий.\n");
+    printf("1)Выбрать существующий файл.\n2)Создать новый файл/очистить существующий.\n0)Выход из режима добавления файла\n");
     do
     {
         inputErrorCode = enterNumber(&action);
@@ -166,6 +165,11 @@ int chooseFile(char *fileName)
             }
         }
         break;
+    }
+    case 0:
+    {
+        printf("Выбор файла отменён.\n");
+        return 2;
     }
     default: //введен другой символ
     {
