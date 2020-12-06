@@ -31,7 +31,7 @@ int main()
     studentStruct students[NUMBER_OF_STUDENTS];
     char fileName[MAXSIZE] = "";
     // FILE *currFile = NULL;
-    int startFlag = 1;
+    int startFlag = 1, inProgram = 1;
     int inputErrorCode = 0, numberOfStudents = 0, showMenu = 0, action = 5;
 
     system("cls"); //очищаем консоль перед стартом программы
@@ -81,15 +81,15 @@ int main()
             }
             else
             {
-                printf("В структуре нет данных о студентах. Для начала добавьте их.\n");
+                printf("В структуре нет данных о студентах. Для начала добавьте их.");
             }
-            printf("Вывод заверешен.\nНажмите Enter, чтобы выйти в главное меню. ");
-            getchar();
-            fflush(stdin);
             break;
         }
         case 2:
         {
+            int currStudentNumber = 0;
+            
+            printf("");
 
             break;
         }
@@ -98,7 +98,7 @@ int main()
             int currStudentNumber = 0, deletedStudentNumber = 0;
             if (students[currStudentNumber].number != -1)
             {
-                while (students[currStudentNumber].number != -1)
+                while (students[currStudentNumber].number != -1)//переделать с for и numberOfStudents
                 {
                     printStudentData(students[currStudentNumber]);
                     currStudentNumber++;
@@ -111,15 +111,11 @@ int main()
                 } while (1 == inputErrorCode);
                 if (deletedStudentNumber == 0)
                 {
-                    printf("Удаление отменено.\nНажмите Enter, чтобы выйти в главное меню. ");
-                    getchar();
-                    fflush(stdin);
-
-                    break;
+                    printf("Удаление отменено.");
                 } // выходим, если нажат 0
                 else
                 {
-                    if (deletedStudentNumber < numberOfStudents)
+                    if (deletedStudentNumber <= numberOfStudents)
                     {
                         deleteStudentData(&students[deletedStudentNumber - 1]);
                         numberOfStudents--;
@@ -136,15 +132,11 @@ int main()
                     {
                         printf("Студента с таким номером нет в базе данных.\n");
                     }
-                    
-                    printf("");
                 }
             }
             else
             {
-                printf("В структуре нет данных о студентах. Невозможно  удалить информацию.\nНажмите Enter, чтобы выйти в главное меню. ");
-                getchar();
-                fflush(stdin);
+                printf("В структуре нет данных о студентах. Невозможно  удалить информацию.");
                 showMenu += 2;
             }
             break;
@@ -177,24 +169,18 @@ int main()
                         printf("Удалены данные студента %d\n", i + 1);
                     }
                     numberOfStudents = 0;
-                    printf("Очистка завершена.\nНажмите Enter, чтобы выйти в главное меню. ");
+                    printf("Очистка завершена.");
                     showMenu += 6;
-                    getchar();
-                    fflush(stdin);
                 }
                 else
                 {
-                    printf("Очистка отменена.\nНажмите Enter, чтобы выйти в главное меню. ");
-                    getchar();
-                    fflush(stdin);
+                    printf("Очистка отменена.");
                     showMenu += 2;
                 }
             }
             else
             {
-                printf("В структуре нет данных о студентах. Очистка невозможна.\nНажмите Enter, чтобы выйти в главное меню. ");
-                getchar();
-                fflush(stdin);
+                printf("В структуре нет данных о студентах. Очистка невозможна.");
                 showMenu++;
             }
             break;
@@ -259,9 +245,7 @@ int main()
                 //чтение базы данных из файла и запись их в структуру
                 readDatabase(fileName, students, &numberOfStudents);
                 showMenu = 6;
-                printf("Данные успешно прочитаны и записаны в структуру. Количество студентов: %d\nНажмите Enter, чтобы выйти в главное меню ", numberOfStudents);
-                getchar();
-                fflush(stdin);
+                printf("Данные успешно прочитаны и записаны в структуру. Количество студентов: %d.", numberOfStudents);
             }
             else
             {
@@ -270,13 +254,22 @@ int main()
             break;
         }
         case 0:
+        {
+            inProgram = 0;
             break;
+        }
         default:
         {
             printf("Неизвестная операция. Повторите попытку.\n");
             showMenu += 2;
             break;
         }
+        }
+        if (inProgram == 1)
+        {
+            printf("\nНажмите Enter, чтобы выйти в главное меню. ");
+            getchar();
+            fflush(stdin);
         }
     } while (0 != action);
 

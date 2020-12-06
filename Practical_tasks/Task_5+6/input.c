@@ -53,7 +53,7 @@ int enterNumber(int *number)
  * @param array массив, куда класть введенные данные
  * @return void
  */
-void enterCredential(char *array)
+void enterArray(char *array)
 {
     char buffer = '\0';
     for (int i = 0; i < MAXSIZE; i++)
@@ -61,7 +61,6 @@ void enterCredential(char *array)
         buffer = getchar();
         if ('\n' == buffer)
         {
-            array[i] = ' ';
             break;
         }
         else
@@ -106,7 +105,7 @@ int chooseFile(char *fileName)
     case 1: //выбор существующего файла
     {
         printf("Введите имя существующего файла: ");
-        enterCredential(fileName);
+        enterArray(fileName);
         if (fopen(fileName, "r") == NULL)
         {
             printf("Ошибка открытия файла. Повторите попытку.\n");
@@ -124,7 +123,7 @@ int chooseFile(char *fileName)
     case 2: //создание нового файла
     {
         printf("Введите имя файла, который необходимо создать: ");
-        enterCredential(fileName);
+        enterArray(fileName);
         if (fopen(fileName, "r") == NULL)
         {
             currFile = fopen(fileName, "w");
@@ -135,7 +134,7 @@ int chooseFile(char *fileName)
             }
             else
             {
-                char refString[MAXSIZE] = "0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail\n";
+                char refString[MAXSIZE / 4] = "0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail\n";
                 fputs(refString, currFile);
                 fclose(currFile);
                 printf("Файл успешно создан. База данных инициализирована.\n");
@@ -148,11 +147,11 @@ int chooseFile(char *fileName)
             if (getchar() == '1')
             {
                 currFile = fopen(fileName, "w");
-                char refString[MAXSIZE] = "0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail\n";
+                char refString[MAXSIZE / 4] = "0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail\n";
                 fputs(refString, currFile);
                 fclose(currFile);
                 fflush(stdin);
-                printf("Файл успешно очищен.\n");
+                printf("Файл успешно очищен. База данных инициализирована.\n");
                 return 0;
             }
             else

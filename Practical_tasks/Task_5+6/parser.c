@@ -172,9 +172,15 @@ void deleteStudentData(studentStruct *structure)
     structure->birthMonth = 0;
     structure->birthYear = 0;
     clearArray(structure->email, MAXSIZE);
-    Sleep(300);
+    Sleep(200);
 }
 
+/**
+ * @brief функция для переноса данных о студенте из одной структуры массива в другую (например, при удалении первого надо сдвинуть всех остальных на 1 к началу)
+ * 
+ * @param *destination указатель на конечную структуру
+ * @param source данные из исходной структуры
+ */
 void moveStudentData(studentStruct *destination, const studentStruct source)
 {
     destination->number = source.number - 1;
@@ -186,7 +192,11 @@ void moveStudentData(studentStruct *destination, const studentStruct source)
     destination->birthMonth = source.birthMonth;
     destination->birthYear = source.birthYear;
     strcpy(destination->email, source.email);
-    Sleep(150);
+    Sleep(200);
+}
+
+void addStudentData(studentStruct *destination) {
+    printf("HW");
 }
 
 #endif // !PARSER
