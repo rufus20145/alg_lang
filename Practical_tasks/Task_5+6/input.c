@@ -27,11 +27,11 @@ int enterNumber(int *number)
     fgets(buffer, MAXSIZE, stdin);
     buffer[strlen(buffer) - 1] = '\0';
     int bufferLength = strlen(buffer);
-    if (bufferLength)
+    if (bufferLength && strcmp(buffer, "-")) 
     {
         for (int i = 0; i < bufferLength; i++)
         {
-            if (!isdigit(buffer[i]))
+            if (!isdigit(buffer[i]) && buffer[i] != '-')
             {
                 printf("Ошибка! Во вводе обнаружены символы, отличные от цифр.\n");
                 return 1; //ошибка, в строке есть не только цифры
@@ -108,7 +108,7 @@ int chooseFile(char *fileName)
         enterArray(fileName);
         if (fopen(fileName, "r") == NULL)
         {
-            printf("Ошибка открытия файла. Повторите попытку.\n");
+            printf("Файл не найден. Повторите попытку.\n");
             return 1;
         }
         else

@@ -26,13 +26,11 @@ void printArray(char *array)
     for (int i = 0; i < arraySize; i++)
     {
         printf("%c", array[i]);
-        if ('\0' == array[i])
-            printf("\nСимвол конца строки\n");
     }
-    if (array[arraySize - 1] != '\n')
-    {
-        printf("\n");
-    }
+    // if (array[arraySize - 1] != '\n')
+    // {
+    //     printf("\n");
+    // }
 }
 
 /**

@@ -89,7 +89,7 @@ int main()
         {
             int currStudentNumber = 0;
             
-            printf("");
+            // printf("");
 
             break;
         }
