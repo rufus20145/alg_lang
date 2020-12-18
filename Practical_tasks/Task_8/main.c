@@ -11,13 +11,13 @@
 #include <stdio.h>
 #include <locale.h>
 #include <windows.h>
-#include "input.h"
+#include "input.c"
 
 #define MAX_SIZE 256
 
 int main()
 {
-    int **array;
+    // int **array;
     int arrayHeight = 0, arrayWidth = 0, inputErrorCode = 0;
 
     system("cls"); //очищаем консоль перед стартом программы
@@ -30,7 +30,7 @@ int main()
         printf("ConsoleCP was changed.\n");
     }
 
-    printf("¬ведите высоту матрицы");
+    printf("¬ведите высоту матрицы ");
     do
     {
         inputErrorCode = enterNumber(&arrayHeight);

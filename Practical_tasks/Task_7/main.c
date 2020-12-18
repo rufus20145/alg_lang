@@ -23,10 +23,11 @@
 #include "functions.c"
 
 #define MAXSIZE 256
-
+#define MATRIX_SIZE 500
+#define BUFFER_SIZE 2500
 typedef struct
 {
-    int array[MAXSIZE][MAXSIZE];
+    int array[MATRIX_SIZE][MATRIX_SIZE];
     int height, width;
     int maxElementRaw, maxElementColumn, minElementRaw, minElementColumn, firstSum, secondSum;
 } matrixes;
@@ -54,7 +55,7 @@ int main()
     setlocale(LC_ALL, "RUSSIAN");
     matrixes matrix;
     char fileName[MAXSIZE] = "";
-    char buffer[MAXSIZE] = "";
+    char buffer[BUFFER_SIZE] = "";
     FILE *currFile = NULL;
     int inputErrorCode = 0, errorCode = 0, flag = 0, matrixWidth = 0;
 
@@ -91,10 +92,10 @@ int main()
     {
         if (0 == flag)
         {
-            fgets(buffer, MAXSIZE, currFile);
+            fgets(buffer, BUFFER_SIZE, currFile);
             flag = 1;
         }
-        fgets(buffer, MAXSIZE, currFile);
+        fgets(buffer, BUFFER_SIZE, currFile);
         buffer[strlen(buffer) - 1] = '\0';
         if (!feof(currFile))
         {

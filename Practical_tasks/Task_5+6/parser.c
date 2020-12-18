@@ -13,6 +13,7 @@
  */
 
 #include "output.c"
+#include "struct.c"
 
 /**
  * @brief функция проверки ФИО

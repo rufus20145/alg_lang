@@ -1,3 +1,9 @@
+#ifndef INPUT
+#define INPUT
+
+#define MAX_SIZE 256
+#include <stdio.h>
+
 /**
  * @brief функция ввода числа с проверкой ввода
  * 
@@ -6,11 +12,11 @@
  */
 int enterNumber(int *number)
 {
-    char buffer[MAXSIZE];
-    fgets(buffer, MAXSIZE, stdin);
+    char buffer[MAX_SIZE];
+    fgets(buffer, MAX_SIZE, stdin);
     buffer[strlen(buffer) - 1] = '\0';
     int bufferLength = strlen(buffer);
-    if (bufferLength && strcmp(buffer, "-")) 
+    if (bufferLength && strcmp(buffer, "-"))
     {
         for (int i = 0; i < bufferLength; i++)
         {
@@ -29,3 +35,4 @@ int enterNumber(int *number)
         return 1;
     }
 }
+#endif // !INPUT

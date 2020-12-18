@@ -10,7 +10,4 @@
  */
 
 
-void clearArray(char *array)
-{
-
-}
+void clearArray(char *array);

@@ -35,7 +35,8 @@ int main()
     int inputErrorCode = 0, numberOfStudents = 0, showMenu = 0, action = 5;
 
     system("cls"); //очищаем консоль перед стартом программы
-
+    srand(time(NULL));
+    
     setlocale(LC_ALL, "RUSSIAN");
     if (GetConsoleCP() != 1251)
     {
@@ -143,7 +144,7 @@ int main()
         }
         case 4: //кажется, работает
         {
-            srand(time(NULL));
+            // srand(time(NULL));
             int deleteKey = rand() % 100, number = 0, wrongPasses = 0, numberOfPasses = 3;
             if (numberOfStudents > 0)
             {

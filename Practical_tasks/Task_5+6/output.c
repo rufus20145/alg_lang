@@ -89,6 +89,7 @@ void printStudentData(const studentStruct structure)
 
     strcat(resultString, "  ");
     strcat(resultString, structure.email);
+    strcat(resultString, "\n");
 
     printArray(resultString);
 }

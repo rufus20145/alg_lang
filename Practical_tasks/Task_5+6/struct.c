@@ -1,4 +1,5 @@
 #ifndef STRUCT
+#define STRUCT
 typedef struct
 {
     int number;

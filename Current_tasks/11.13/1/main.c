@@ -11,10 +11,11 @@
 
 #define MAX_SIZE 255 
 #include <stdio.h>
+#include "header.h"
 
 int main() {
     int a;
-    int array[MAX_SIZE];
+    char array[MAX_SIZE];
     scanf("%d", &a);
     printf("%d", a);
     clearArray(array);
