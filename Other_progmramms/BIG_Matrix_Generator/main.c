@@ -46,7 +46,7 @@ int main()
             strcat(array, buffer);
             if (j < b - 1)
             {
-                strcat(array, ";");
+                strcat(array, " ");
             }
             // Sleep(100);
         }
