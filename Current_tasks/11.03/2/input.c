@@ -38,7 +38,8 @@ void enterCredential(char *array)
 /**
  * @brief функция для очистки массива
  * 
- * @param array - массив для очистки
+ * @param array  массив для очистки
+ * @param arraySize  разер массива
  */
 void clearArray(char *array, int arraySize)
 {
