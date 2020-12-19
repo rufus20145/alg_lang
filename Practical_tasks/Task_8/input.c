@@ -1,11 +1,21 @@
 #ifndef INPUT
 #define INPUT
+/**
+ * @file input.c
+ * @author rufus20145 (ivan20027749@gmail.com)
+ * @brief файл с дополнительными функциями ввода с клавиатуры
+ * @version 0.1
+ * @date 2020-12-19
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
 
 #define MAX_SIZE 256
 #include <stdio.h>
 
 /**
- * @brief функция ввода числа с проверкой ввода
+ * @brief функция ввода числа с проверкой корректности ввода
  * 
  * @param *number указатель на число в вызывающей функции
  * @return int код ошибки
@@ -27,12 +37,12 @@ int enterNumber(int *number)
             }
         }
         *number = atoi(buffer);
-        return 0;
+        return 0;//ошибки нет, выходим из функции
     }
     else
     {
         printf("Вы не ввели ни одного символа, повторите попытку. ");
-        return 1;
+        return 1;//ошибка, введенная строка пуста
     }
 }
 #endif // !INPUT
