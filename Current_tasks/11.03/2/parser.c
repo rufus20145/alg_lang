@@ -9,27 +9,7 @@
  * 
  */
 
-/**
- * @brief функция проверки номера группы
- * 
- * @param array массив с номером группы для проверки
- * @return int результат проверки
- */
-int checkGroup(char *array)
-{
-    int arraySize = strlen(array);
-    arraySize--; // при вводе мы добавляем пробел в конеци его не надо проверять на букву
-    for (int i = 0; i < arraySize; i++)
-    {
-        if (!isalpha(array[i]))
-        {
-            printf("Ошибка ввода. Повторите попытку. ");
-            clearArray(array, MAXSIZE);
-            return 0;
-        }
-    }
-    return 1;
-}
+#define MAXSIZE 256
 
 /**
  * @brief функция проверки ФИО
@@ -43,7 +23,7 @@ int checkCredential(char *array)
     arraySize--; // при вводе мы добавляем пробел в конеци его не надо проверять на букву
     for (int i = 0; i < arraySize; i++)
     {
-        if (!isalpha(array[i]))
+        if (!isalpha((unsigned char)array[i]))
         {
             printf("%c не является буквой ", array[i]);
             printf("Ошибка ввода. Повторите попытку. ");

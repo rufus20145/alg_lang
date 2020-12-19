@@ -39,7 +39,7 @@ int main()
     char fileName[MAXSIZE] = "";
     FILE *currFile;
     int action;
-    char surName[MAXSIZE] = "", name[MAXSIZE] = "", middleName[MAXSIZE] = "", group[MAXSIZE] = "", resultString[MAXSIZE * MAXSIZE] = "";
+    char surName[MAXSIZE] = "", name[MAXSIZE] = "", middleName[MAXSIZE] = "", group[MAXSIZE] = "", resultString[MAXSIZE * 4] = "";
     printf("Введите имя файла:");
     enterCredential(fileName);
     while (fopen(fileName, "r") == NULL)
@@ -75,7 +75,7 @@ int main()
             } while (0 == checkCredential(middleName));
             printf("Введите номер группы: ");
             enterCredential(group); //в формате М3О-135Б-20 (3 символ - буква)
-            while (!isalpha(group[0]) || !isalpha(group[7]) || !isdigit(group[1]) || !isalpha(group[2]) || !isdigit(group[4]) || !isdigit(group[5]) || !isdigit(group[6]) || !isdigit(group[9]) || !isdigit(group[10]))
+            while (!isalpha((unsigned char)group[0]) || !isalpha((unsigned char)group[7]) || !isdigit(group[1]) || !isalpha((unsigned char)group[2]) || !isdigit(group[4]) || !isdigit(group[5]) || !isdigit(group[6]) || !isdigit(group[9]) || !isdigit(group[10]))
             {
                 printf("Ошибка ввода. Повторите попытку.");
                 clearArray(group, MAXSIZE);

@@ -16,8 +16,8 @@
 #include "numSwapper.c"
 
 // с помощью одного из двух define в слеюущих строках выберите тип ввода (по умолчанию с клавиатуры)
-#define INPUT_FROM_KEYBOARD
-// #define INPUT_FROM_FILE
+// #define INPUT_FROM_KEYBOARD
+#define INPUT_FROM_FILE
 
 #define INPUT_BUFFER_SIZE 256
 #define MATRIX_SIZE 32
@@ -29,12 +29,15 @@ int main()
 #ifdef INPUT_FROM_FILE
     FILE *currFile;
     char inputBuffer[INPUT_BUFFER_SIZE] = "", fileName[INPUT_BUFFER_SIZE] = "";
-    int flag = 0;
 #endif // INPUT_FROM_FILE
+
+#ifdef INPUT_FROM_KEYBOARD
+int inputErrorCode = 0;
+#endif // INPUT_FROM_KEYBOARD
 
     int matrix[MATRIX_SIZE][MATRIX_SIZE];
     int plainArray[MATRIX_SIZE * MATRIX_SIZE];
-    int matrixHeight = 0, matrixWidth = 0, inputErrorCode = 0, plainSize = 0, minElementIndex = 0;
+    int matrixHeight = 0, matrixWidth = 0, plainSize = 0, minElementIndex = 0;
 
     system("cls"); //очищаем консоль перед стартом программы
 
@@ -55,11 +58,6 @@ int main()
     matrixHeight = -1;
     while (!feof(currFile))
     {
-        // if (0 == flag)
-        // {
-        //     fgets(inputBuffer, INPUT_BUFFER_SIZE, currFile);
-        //     flag = 1;
-        // }
         fgets(inputBuffer, INPUT_BUFFER_SIZE, currFile);
         inputBuffer[strlen(inputBuffer) - 1] = '\0';
         if (!feof(currFile))
