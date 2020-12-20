@@ -34,9 +34,9 @@ int main()
     int startFlag = 1, inProgram = 1;
     int inputErrorCode = 0, numberOfStudents = 0, showMenu = 0, action = 5;
 
-    system("cls"); //очищаем консоль перед стартом программы
-    srand(time(NULL));
-    
+    system("cls");     //очищаем консоль перед стартом программы
+    srand(time(NULL)); //задаем новый seed для генератора случайных чисел
+
     setlocale(LC_ALL, "RUSSIAN");
     if (GetConsoleCP() != 1251)
     {
@@ -54,30 +54,27 @@ int main()
     //основное меню программы
     do
     {
-        if (showMenu > 5 || startFlag != 1)
+        if (showMenu > 5 || 0 == startFlag) //при первом запуске startFlag == 1 и меню не выводится
         {
             showMenu = 0;
             printf("\nВыберите действие:\n1)Вывести информацию о студентах на экран.\n2)Добавить студента в базу данных.\n3)Удалить информацию о студенте из базы данных.\n4)Очистить базу данных.\n5)Выбрать новый файл\n0)Выход из программы.\n");
         }
-        if (startFlag != 1) //при первом запуске сразу проходим в case 5 для ввода первого файла
+        if (0 == startFlag) //при первом запуске stratFlag == 1 и action == 5, т.к. необходимо сразу перейти к выбору файла
         {
             do
             {
                 inputErrorCode = enterNumber(&action);
             } while (1 == inputErrorCode);
         }
-        switch (action)
+        switch (action) //основное меню программы
         {
         case 1: //кажется, работает
         {
-            int currStudentNumber = 0;
-            if (students[currStudentNumber].number != -1)
+            if (numberOfStudents > 0)
             {
-                while (students[currStudentNumber].number != -1)
+                for (int currStudentNumber = 0; currStudentNumber < numberOfStudents; currStudentNumber++)
                 {
                     printStudentData(students[currStudentNumber]);
-                    currStudentNumber++;
-                    showMenu += 2;
                 }
             }
             else
@@ -88,9 +85,29 @@ int main()
         }
         case 2:
         {
-            int currStudentNumber = 0;
-            
-            // printf("");
+            int numberOfAddedStudents = 0;
+            printf("Введите количество добавляемых студентов или 0, чтобы выйти в главное меню ");
+            do
+            {
+                inputErrorCode = enterNumber(&numberOfAddedStudents);
+            } while (1 == inputErrorCode);
+            if (0 == numberOfAddedStudents)
+            {
+                printf("Добавление студентов отменено. ");
+            }
+            else if (numberOfStudents + numberOfAddedStudents > NUMBER_OF_STUDENTS)
+            {
+                printf("К сожалению, памяти на такое количество студентов не хватит. Начните заново.\n");
+            }
+            else
+            {
+                for (int currStudentNumber = 0; currStudentNumber < numberOfAddedStudents; currStudentNumber++)
+                {
+                    students[numberOfStudents + currStudentNumber].number = numberOfStudents + currStudentNumber + 1;
+                    addStudentData(&students[numberOfStudents + currStudentNumber], currStudentNumber);
+                }
+                numberOfStudents += numberOfAddedStudents;
+            }
 
             break;
         }
@@ -99,7 +116,7 @@ int main()
             int currStudentNumber = 0, deletedStudentNumber = 0;
             if (students[currStudentNumber].number != -1)
             {
-                while (students[currStudentNumber].number != -1)//переделать с for и numberOfStudents
+                while (students[currStudentNumber].number != -1) //переделать с for и numberOfStudents
                 {
                     printStudentData(students[currStudentNumber]);
                     currStudentNumber++;
@@ -190,7 +207,7 @@ int main()
         {
             startFlag = 0;
             printf("Выберите файл.\n");
-            //выбираем другой файл, который будет использоваться
+            //выбираем файл, который будет использоваться
             do
             {
                 clearArray(fileName, MAXSIZE);
@@ -261,12 +278,12 @@ int main()
         }
         default:
         {
-            printf("Неизвестная операция. Повторите попытку.\n");
+            printf("Неизвестная операция. Повторите попытку.");
             showMenu += 2;
             break;
         }
         }
-        if (inProgram == 1)
+        if (1 == inProgram) //ожидание нажатия Enter для выхода в главное меню
         {
             printf("\nНажмите Enter, чтобы выйти в главное меню. ");
             getchar();
@@ -274,6 +291,6 @@ int main()
         }
     } while (0 != action);
 
-    printf("\nКонец программы.\n");
+    printf("\nКонец программы.\nСпасибо за использование!\n");
     return 0;
 }

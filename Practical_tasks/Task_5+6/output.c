@@ -1,6 +1,7 @@
 #ifndef OUTPUT
 #define OUTPUT
 #define BIGSTRING_SIZE 1024
+#define MAXSIZE 256
 
 #include "struct.c"
 
@@ -27,10 +28,6 @@ void printArray(char *array)
     {
         printf("%c", array[i]);
     }
-    // if (array[arraySize - 1] != '\n')
-    // {
-    //     printf("\n");
-    // }
 }
 
 /**
@@ -58,33 +55,13 @@ void printStudentData(const studentStruct structure)
     strcat(resultString, structure.group);
 
     strcat(resultString, "  ");
-    if (structure.birthDay < 10) //нужно получить 06., а не 6.
-    {
-        char temp[MAXSIZE / 8];
-        strcpy(buffer, "0");
-        sprintf(temp, "%d", structure.birthDay);
-        strcat(buffer, temp);
-    }
-    else
-    {
-        sprintf(buffer, "%d", structure.birthDay);
-    }
+    sprintf(buffer, "%02d", structure.birthDay);
     strcat(resultString, buffer);
     strcat(resultString, ".");
-    if (structure.birthMonth < 10) //нужно получить 06., а не 6.
-    {
-        char temp[MAXSIZE / 8];
-        strcpy(buffer, "0");
-        sprintf(temp, "%d", structure.birthMonth);
-        strcat(buffer, temp);
-    }
-    else
-    {
-        sprintf(buffer, "%d", structure.birthMonth);
-    }
+    sprintf(buffer, "%02d", structure.birthMonth);
     strcat(resultString, buffer);
     strcat(resultString, ".");
-    sprintf(buffer, "%d", structure.birthYear);
+    sprintf(buffer, "%04d", structure.birthYear);
     strcat(resultString, buffer);
 
     strcat(resultString, "  ");

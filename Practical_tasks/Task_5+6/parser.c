@@ -12,8 +12,27 @@
  * 
  */
 
+#include <stdio.h>
+#include <string.h>
 #include "output.c"
 #include "struct.c"
+
+/**
+ * @brief функция для проврки email на корректность
+ * 
+ * @param array 
+ * @return int результат проверки (0 - ввод верен, 1 - присутствуют ошибки)
+ */
+int checkEmail(char *array)
+{
+    if (array == NULL)
+    {
+        return 1;
+    }
+    fputs(array, stdout);
+    printf(" Email is cheking!\n");
+    return 0;
+}
 
 /**
  * @brief функция проверки ФИО
@@ -24,19 +43,18 @@
 int checkCredential(char *array)
 {
     int arraySize = strlen(array);
-    arraySize--; // при вводе мы добавляем пробел в конеци его не надо проверять на букву
     for (int i = 0; i < arraySize; i++)
     {
-        if (!isalpha(array[i]))
+        if (!isalpha((unsigned char)array[i]))
         {
-            // printf("%c не является буквой ", array[i]);
+            printf("%c не является буквой ", array[i]);
             printf("Ошибка ввода. Повторите попытку. ");
             clearArray(array, MAXSIZE);
-            return 0;
+            return 1;
         }
     }
     array[0] = toupper(array[0]);
-    return 1;
+    return 0;
 }
 
 /**
@@ -196,8 +214,83 @@ void moveStudentData(studentStruct *destination, const studentStruct source)
     Sleep(200);
 }
 
-void addStudentData(studentStruct *destination) {
-    printf("HW");
+/**
+ * @brief функция для ввода с клавиатуры анкетных данных студента и последующей записи их в структуру
+ * 
+ * @param destination указатель на структуру, куда необходимо записать полученные данные
+ */
+void addStudentData(studentStruct *destination, int numberOfStudent)
+{
+    numberOfStudent++;
+    char buffer[MAXSIZE] = "";
+    printf("Введите фамилию студента %d: ", numberOfStudent);
+    do
+    {
+        fgets(buffer, MAXSIZE, stdin);
+        buffer[strlen(buffer) - 1] = '\0';
+    } while (1 == checkCredential(buffer));
+    strcpy(destination->surName, buffer);
+
+    printf("Введите имя студента %d: ", numberOfStudent);
+    do
+    {
+        fgets(buffer, MAXSIZE, stdin);
+        buffer[strlen(buffer) - 1] = '\0';
+    } while (1 == checkCredential(buffer));
+    strcpy(destination->name, buffer);
+
+    printf("Введите отчество студента %d: ", numberOfStudent);
+    do
+    {
+        fgets(buffer, MAXSIZE, stdin);
+        buffer[strlen(buffer) - 1] = '\0';
+    } while (1 == checkCredential(buffer));
+    strcpy(destination->middleName, buffer);
+
+    printf("Введите номер группы студента %d: ", numberOfStudent);
+    do
+    {
+        fgets(buffer, MAXSIZE, stdin);
+        buffer[strlen(buffer) - 1] = '\0';
+    } while (!isalpha((unsigned char)buffer[0]) || !isalpha((unsigned char)buffer[7]) || !isdigit(buffer[1]) || !isalpha((unsigned char)buffer[2]) || !isdigit(buffer[4]) || !isdigit(buffer[5]) || !isdigit(buffer[6]) || !isdigit(buffer[9]) || !isdigit(buffer[10]));
+    strcpy(destination->group, buffer);
+
+    printf("Введите дату рождения студента %d в формате ДД.ММ.ГГГГ: ", numberOfStudent);
+    fgets(buffer, MAXSIZE, stdin);
+    buffer[strlen(buffer) - 1] = '\0';
+    char *separatedBuffer = "";
+    separatedBuffer = strtok(buffer, ".");
+    int fieldNumber = 0;
+    while (separatedBuffer != NULL)
+    {
+        switch (fieldNumber)
+        {
+        case 0:
+        {
+            destination->birthDay = atoi(separatedBuffer);
+            break;
+        }
+        case 1:
+        {
+            destination->birthMonth = atoi(separatedBuffer);
+            break;
+        }
+        case 2:
+        {
+            destination->birthYear = atoi(separatedBuffer);
+        }
+        }
+        separatedBuffer = strtok(NULL, ".");
+        fieldNumber++;
+    }
+
+    printf("Введите электронную почту студента %d: ", numberOfStudent);
+    do
+    {
+        fgets(buffer, MAXSIZE, stdin);
+        buffer[strlen(buffer) - 1] = '\0';
+    } while (1 == checkEmail(buffer));
+    strcpy(destination->email, buffer);
 }
 
 #endif // !PARSER
