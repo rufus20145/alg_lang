@@ -73,4 +73,45 @@ void printStudentData(const studentStruct structure)
 
     printArray(resultString);
 }
+
+void exportSudentData(const studentStruct structure, char* fileName)
+{
+    char resultString[BIGSTRING_SIZE] = "", buffer[MAXSIZE] = "";
+
+    sprintf(buffer, "%d", structure.number);
+    strcat(resultString, buffer);
+    strcat(resultString, ";");
+
+    strcat(resultString, structure.surName);
+    strcat(resultString, ";");
+
+    strcat(resultString, structure.name);
+    strcat(resultString, ";");
+
+    strcat(resultString, structure.middleName);
+    strcat(resultString, ";");
+
+    strcat(resultString, structure.group);
+    strcat(resultString, ";");
+
+    sprintf(buffer, "%d", structure.birthDay);
+    strcat(resultString, buffer);
+    strcat(resultString, ";");
+    
+    sprintf(buffer, "%d", structure.birthMonth);
+    strcat(resultString, buffer);
+    strcat(resultString, ";");
+
+    sprintf(buffer, "%d", structure.birthYear);
+    strcat(resultString, buffer);
+    strcat(resultString, ";");
+    
+    strcat(resultString, structure.email);
+    strcat(resultString, "\n");
+
+    FILE* currFile = fopen(fileName, "a");
+    fputs(resultString, currFile);
+    fclose(currFile);
+}
+
 #endif // !OUTPUT

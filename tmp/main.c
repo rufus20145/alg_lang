@@ -27,6 +27,18 @@ void sort(int *num, int size)
     }
 }
 
+void sort2 (int* num, int size) {
+    for(int i = 0; i < size; i++) {
+        for(int j = 0; j < size; j)
+        if(num[i] > num[j])
+        {
+            swapNumbers(num[i], num[j]);
+        }
+    }
+}
+
+
+
 int main()
 {
 
@@ -310,16 +322,16 @@ int main()
             fclose(IOFile);
         }
         break;
-        case 'f':
-            for (i = 0; i < a1; i++)
-            {
-                for (j = 0; j < a2; j++)
-                {
-                    fpintf(IOFile, "%d ", a[i][j]);
-                }
-                fprintf(IOFile, "\n");
-            }
-            break;
+        // case 'f':
+        //     for (i = 0; i < a1; i++)
+        //     {
+        //         for (j = 0; j < a2; j++)
+        //         {
+        //             fpintf(IOFile, "%d ", a[i][j]);
+        //         }
+        //         fprintf(IOFile, "\n");
+        //     }
+        //     break;
 
         case 2:
         {

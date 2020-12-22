@@ -31,7 +31,7 @@ int main()
     studentStruct students[NUMBER_OF_STUDENTS];
     char fileName[MAXSIZE] = "";
     // FILE *currFile = NULL;
-    int startFlag = 1, inProgram = 1;
+    int skipMenuFlaG = 1, inProgram = 1;
     int inputErrorCode = 0, numberOfStudents = 0, showMenu = 0, action = 5;
 
     system("cls");     //очищаем консоль перед стартом программы
@@ -54,12 +54,12 @@ int main()
     //основное меню программы
     do
     {
-        if (showMenu > 5 || 0 == startFlag) //при первом запуске startFlag == 1 и меню не выводится
+        if (showMenu > 5 || 0 == skipMenuFlaG) //при первом запуске skipMenuFlaG == 1 и меню не выводится
         {
             showMenu = 0;
-            printf("\nВыберите действие:\n1)Вывести информацию о студентах на экран.\n2)Добавить студента в базу данных.\n3)Удалить информацию о студенте из базы данных.\n4)Очистить базу данных.\n5)Выбрать новый файл\n0)Выход из программы.\n");
+            printf("\nВыберите действие:\n1)Вывести информацию о студентах на экран.\n2)Добавить студента в базу данных.\n3)Удалить информацию о студенте из базы данных.\n4)Очистить базу данных.\n5)Выбрать новый файл\n6)Записать данные в файл\n0)Выход из программы.\n");
         }
-        if (0 == startFlag) //при первом запуске stratFlag == 1 и action == 5, т.к. необходимо сразу перейти к выбору файла
+        if (0 == skipMenuFlaG) //при первом запуске skipMenuFlaG == 1 и action == 5, т.к. необходимо сразу перейти к выбору файла
         {
             do
             {
@@ -86,7 +86,7 @@ int main()
         case 2:
         {
             int numberOfAddedStudents = 0;
-            printf("Введите количество добавляемых студентов или 0, чтобы выйти в главное меню ");
+            printf("Введите количество добавляемых студентов или 0, чтобы выйти в главное меню: ");
             do
             {
                 inputErrorCode = enterNumber(&numberOfAddedStudents);
@@ -205,7 +205,7 @@ int main()
         }
         case 5: //кажется, работает
         {
-            startFlag = 0;
+            skipMenuFlaG = 0;
             printf("Выберите файл.\n");
             //выбираем файл, который будет использоваться
             do
@@ -271,8 +271,14 @@ int main()
             }
             break;
         }
+        case 6:
+        {
+
+            break;
+        }
         case 0:
         {
+
             inProgram = 0;
             break;
         }
