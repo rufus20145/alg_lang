@@ -33,7 +33,7 @@ int main()
     studentStruct students[NUMBER_OF_STUDENTS];
     char fileName[FILENAME_SIZE] = "";
     // FILE *currFile = NULL;
-    int skipMenuFlaG = 1, inProgram = 1;
+    int skipMenuFlag = 1, inProgram = 1;
     int inputErrorCode = 0, numberOfStudents = 0, showMenu = 0, action = 5;
 
     system("cls");     //очищаем консоль перед стартом программы
@@ -47,21 +47,22 @@ int main()
         printf("ConsoleCP was changed.\n");
     }
 
-    //инициализируем номера студентов
+    //инициализируем номера и количество оценок студентов
     for (int i = 0; i < NUMBER_OF_STUDENTS; i++)
     {
         students[i].number = -1;
+        students[i].numberOfSubjects = 0;
     }
 
     //основное меню программы
     do
     {
-        if (showMenu > 5 && 0 == skipMenuFlaG) //при первом запуске skipMenuFlaG == 1 и меню не выводится
+        if (showMenu > 5 && 0 == skipMenuFlag) //при первом запуске skipMenuFlag == 1 и меню не выводится
         {
             showMenu = 0;
             printf("\nВыберите действие:\n1)Вывести информацию о студентах на экран.\n2)Добавить студента в базу данных.\n3)Удалить информацию о студенте из базы данных.\n4)Очистить базу данных.\n5)Выбрать новый файл\n6)Ввести оценки\n7)Вывести оценки\n8)Считать массив, отсортировать его, и записать всё в файл\n0)Выход из программы.\n");
         }
-        if (0 == skipMenuFlaG) //при первом запуске skipMenuFlaG == 1 и action == 5, т.к. необходимо сразу перейти к выбору файла
+        if (0 == skipMenuFlag) //при первом запуске skipMenuFlag == 1 и action == 5, т.к. необходимо сразу перейти к выбору файла
         {
             do
             {
@@ -70,14 +71,14 @@ int main()
         }
         switch (action) //основное меню программы
         {
-        case 1: //кажется, работает
+        case 1: //вывод информации о всех студентах
         {
             if (numberOfStudents > 0)
             {
                 for (int currStudentNumber = 0; currStudentNumber < numberOfStudents; currStudentNumber++)
                 {
                     printStudentData(students[currStudentNumber]);
-                    showMenu += 2;
+                    showMenu++;
                 }
             }
             else
@@ -87,7 +88,7 @@ int main()
             }
             break;
         }
-        case 2: //кажется, работает
+        case 2: //добавление студента в базу данных
         {
             int numberOfAddedStudents = 0;
             printf("Введите количество добавляемых студентов или 0, чтобы выйти в главное меню: ");
@@ -117,15 +118,15 @@ int main()
             }
             break;
         }
-        case 3: //кажется, работает
+        case 3: //удаление студента из базы данных
         {
-            int currStudentNumber = 0, selectedStudent = 0;
+            int selectedStudent = 0;
             if (numberOfStudents > 0)
             {
                 for (int currStudentNumber = 0; currStudentNumber < numberOfStudents; currStudentNumber++)
                 {
                     printStudentData(students[currStudentNumber]);
-                    showMenu += 2;
+                    showMenu++;
                 }
                 printf("Введите № студента, инфрмацию о котором надо удалить или 0, чтобы выйти в главное меню ");
                 do
@@ -164,32 +165,31 @@ int main()
             else
             {
                 printf("В структуре нет данных о студентах. Невозможно  удалить информацию.");
-                showMenu += 2;
+                showMenu++;
             }
             break;
         }
-        case 4: //кажется, работает
+        case 4: //очистка базы данных
         {
             int deleteKey = rand() % 100, number = 0, wrongPasses = 0, numberOfPasses = 3;
             if (numberOfStudents > 0)
             {
                 printf("Это действие нельзя отменить. Введите %d, чтобы очистить базу данных. Количество попыток: %d.\n", deleteKey, numberOfPasses);
-
                 do
                 {
                     printf("Ваше число: ");
                     inputErrorCode = enterNumber(&number);
-                    if (number != deleteKey)
+                    if (number != deleteKey && 0 == inputErrorCode)
                     {
-                        wrongPasses++;
                         printf("Неверно, оставшиеся попытки: %d шт.\n", numberOfPasses - wrongPasses);
-                        showMenu += 3;
+                        wrongPasses++;
+                        showMenu++;
                     }
                 } while ((inputErrorCode == 1) || ((number != deleteKey) && (wrongPasses < numberOfPasses)));
+                showMenu += 2;
                 if (number == deleteKey)
                 {
                     printf("Начинаю очистку массива структур.\n");
-                    showMenu++;
                     for (int i = 0; i < numberOfStudents; i++)
                     {
                         deleteStudentData(&students[i]);
@@ -198,7 +198,7 @@ int main()
                     }
                     numberOfStudents = 0;
                     printf("Очистка завершена.");
-                    showMenu++;
+                    showMenu += 2;
                 }
                 else
                 {
@@ -213,17 +213,18 @@ int main()
             }
             break;
         }
-        case 5: //кажется, работает
+        case 5: //смена рабочего файла
         {
-            skipMenuFlaG = 0;
+            skipMenuFlag = 0;
             //выбираем файл, который будет использоваться
             printf("Выберите файл.\n");
             do
             {
+                showMenu++;
                 clearArray(fileName, MAXSIZE);
                 inputErrorCode = chooseFile(fileName);
             } while (1 == inputErrorCode);
-
+            showMenu++;
             //проверка наличия базы данных в файле
             while (checkDatabase(fileName))
             {
@@ -277,10 +278,10 @@ int main()
 
             break;
         }
-        case 6:
+        case 6: //добавление оценок к студенту
         {
-            float tempSum = 0;
-            int selectedStudent, numberOfSubjects = 0, markNumber = 0;
+            float tempSum = 0, totalSum = 0;
+            int selectedStudent, numberOfSubjects = 0, markNumber = 0, totalMarkNumber = 0;
             char buffer[MAXSIZE];
 
             if (numberOfStudents > 0)
@@ -288,6 +289,7 @@ int main()
                 for (int currStudentNumber = 0; currStudentNumber < numberOfStudents; currStudentNumber++)
                 {
                     printStudentData(students[currStudentNumber]);
+                    showMenu++;
                 }
                 printf("Введите номер студента, которому вы хотите добавить оценки, или 0, чтобы выйти в главное меню ");
                 do
@@ -297,18 +299,20 @@ int main()
                 if (0 == selectedStudent)
                 {
                     printf("Добавление оценок отменено.");
+                    showMenu += 2;
                 }
                 else
                 {
-
                     if (selectedStudent <= numberOfStudents)
                     {
-                        printf("Введите количество предметов:");
+                        printf("Введите количество предметов: ");
                         do
                         {
                             if (numberOfSubjects > NUMBER_OF_SUBJECTS)
                             {
                                 printf("Я не могу хранить такое количество предметов, повторите попытку ");
+                                numberOfSubjects = 0;
+                                showMenu += 2;
                             }
                             inputErrorCode = enterNumber(&numberOfSubjects);
                         } while (1 == inputErrorCode || numberOfSubjects > NUMBER_OF_SUBJECTS);
@@ -319,34 +323,47 @@ int main()
                             fgets(students[selectedStudent - 1].subjectName[currSubject], SUBJECT_NAME_SIZE, stdin);
                             students[selectedStudent - 1].subjectName[currSubject][strlen(students[selectedStudent - 1].subjectName[currSubject]) - 1] = '\0';
                             printf("Введите строку с оценками по предмету %d: ", currSubject + 1);
-                            fgets(buffer, 256, stdin);
+                            fgets(buffer, MAXSIZE, stdin);
                             char *separatedBuffer = strtok(buffer, " ");
                             while (NULL != separatedBuffer)
                             {
-                                students[selectedStudent - 1].marks[currSubject][markNumber] = atoi(separatedBuffer);
-                                tempSum += students[selectedStudent - 1].marks[currSubject][markNumber];
-                                markNumber++;
-                                separatedBuffer = strtok(NULL, " ");
+                                if (markNumber < NUMBER_OF_MARKS)
+                                {
+                                    students[selectedStudent - 1].marks[currSubject][markNumber] = atoi(separatedBuffer);
+                                    tempSum += students[selectedStudent - 1].marks[currSubject][markNumber];
+                                    totalSum += students[selectedStudent - 1].marks[currSubject][markNumber];
+                                    markNumber++;
+                                    separatedBuffer = strtok(NULL, " ");
+                                }
+                                else
+                                {
+                                    printf("Для следующей оценки не хватит памяти. Ввод принудительно остановлен");
+                                }
                             }
                             students[selectedStudent - 1].numberOfMarks[currSubject] = markNumber;
                             students[selectedStudent - 1].averageMark[currSubject] = tempSum / markNumber;
+                            totalMarkNumber += markNumber;
                             tempSum = 0;
                             markNumber = 0;
+                            showMenu += 2;
                         }
+                        students[selectedStudent - 1].totalAverageMark = totalSum / totalMarkNumber;
                     }
                     else
                     {
                         printf("Студента с таким номером нет в базе данных.\n");
+                        showMenu += 4;
                     }
                 }
             }
             else
             {
                 printf("В структуре нет данных о студентах. Для начала добавьте их.");
+                showMenu++;
             }
             break;
         }
-        case 7:
+        case 7: //вывод оценок студента
         {
             int selectedStudent;
             if (numberOfStudents > 0)
@@ -354,6 +371,7 @@ int main()
                 for (int currStudentNumber = 0; currStudentNumber < numberOfStudents; currStudentNumber++)
                 {
                     printStudentData(students[currStudentNumber]);
+                    showMenu++;
                 }
                 printf("Введите номер студента, оценки которого вы хотите вывести, или 0, чтобы выйти в главное меню ");
                 do
@@ -363,6 +381,7 @@ int main()
                 if (0 == selectedStudent)
                 {
                     printf("Вывод оценок отменен.");
+                    showMenu += 2;
                 }
                 else
                 {
@@ -370,39 +389,46 @@ int main()
                     {
                         if (students[selectedStudent - 1].numberOfSubjects > 0)
                         {
+                            printf("\n");
                             for (int currSubject = 0; currSubject < students[selectedStudent - 1].numberOfSubjects; currSubject++)
                             {
-                                printf("Оценки студента %d по предмету %s\t", selectedStudent, students[selectedStudent - 1].subjectName[currSubject]);
+                                printf("Оценки студента %d по предмету %s ", selectedStudent, students[selectedStudent - 1].subjectName[currSubject]);
                                 for (int currMark = 0; currMark < students[selectedStudent - 1].numberOfMarks[currSubject]; currMark++)
                                 {
                                     printf("%d ", students[selectedStudent - 1].marks[currSubject][currMark]);
                                 }
-                                printf("\tСредний балл = %.2f", students[selectedStudent - 1].averageMark[currSubject]);
+                                printf(" Средний балл = %.2f.", students[selectedStudent - 1].averageMark[currSubject]);
                                 printf("\n");
+                                showMenu += 2;
                             }
+                            printf("Общий средний балл = %.2f\n", students[selectedStudent - 1].totalAverageMark);
                         }
                         else
                         {
                             printf("У данного студента нет данных об оценках. Для начала добавьте их.");
+                            showMenu += 2;
                         }
                     }
                     else
                     {
                         printf("Студента с таким номером нет в базе данных.\n");
+                        showMenu += 2;
                     }
                 }
             }
             else
             {
                 printf("В структуре нет данных о студентах. Для начала добавьте их.");
+                showMenu++;
             }
             break;
         }
-        case 8: //кажется, работает
+        case 8: //запись всех данных в файл
         {
             int arraySize = 0;
             int *array = NULL;
             char exportFileName[FILENAME_SIZE];
+            //выбор файла для экспорта данных и экспорт данных студентов
             do
             {
                 clearArray(exportFileName, MAXSIZE);
@@ -413,6 +439,7 @@ int main()
                 exportSudentData(students[i], exportFileName);
             }
 
+            //ввод и сортировка массива (задание куросовой работы)
             printf("Введите размер массива: ");
             do
             {
@@ -430,7 +457,8 @@ int main()
             sortArray(array, arraySize);
             printf("\n");
             FILE *exportFile = fopen(exportFileName, "a");
-            fprintf(exportFile, "\nОтсортированный масив из %d элементов:\n", arraySize);
+            fprintf(exportFile, "\nОтсортированный  по убыванию масив из %d элементов:\n", arraySize);
+            fprintf(stdout, "\nОтсортированный  по убыванию масив из %d элементов:\n", arraySize);
             for (int i = 0; i < arraySize; i++)
             {
                 fprintf(exportFile, "array[%d] = %d\n", i + 1, array[i]);
@@ -439,18 +467,19 @@ int main()
             fclose(exportFile);
             free(array);
             array = NULL;
+            showMenu += 6;
             break;
         }
-        case 0:
+        case 0: //выход из программы
         {
 
             inProgram = 0;
             break;
         }
-        default:
+        default: //неизвестная операция
         {
             printf("Неизвестная операция. Повторите попытку.");
-            showMenu += 2;
+            showMenu++;
             break;
         }
         }

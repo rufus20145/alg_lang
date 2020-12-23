@@ -18,6 +18,7 @@ typedef struct
     char subjectName[NUMBER_OF_SUBJECTS][SUBJECT_NAME_SIZE];
     int marks[NUMBER_OF_SUBJECTS][NUMBER_OF_MARKS];
     float averageMark[NUMBER_OF_SUBJECTS];
+    float totalAverageMark;
 } studentStruct;
 
 #endif // !STRUCT

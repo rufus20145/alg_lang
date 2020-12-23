@@ -59,7 +59,7 @@ void printStudentData(const studentStruct structure)
     sprintf(buffer, "%02d", structure.birthDay);
     strcat(resultString, buffer);
     strcat(resultString, ".");
-    
+
     sprintf(buffer, "%02d", structure.birthMonth);
     strcat(resultString, buffer);
     strcat(resultString, ".");
@@ -67,50 +67,78 @@ void printStudentData(const studentStruct structure)
     sprintf(buffer, "%04d", structure.birthYear);
     strcat(resultString, buffer);
     strcat(resultString, "  ");
-    
+
     strcat(resultString, structure.email);
     strcat(resultString, "\n");
 
     printArray(resultString);
 }
 
-void exportSudentData(const studentStruct structure, char* fileName)
+void exportSudentData(const studentStruct structure, char *fileName)//изменить после курсовой 
 {
     char resultString[BIGSTRING_SIZE] = "", buffer[MAXSIZE] = "";
+    FILE *currFile = fopen(fileName, "a");
 
+    //вывод анкетных данных студента
     sprintf(buffer, "%d", structure.number);
     strcat(resultString, buffer);
-    strcat(resultString, ";");
+    strcat(resultString, ".");
 
     strcat(resultString, structure.surName);
-    strcat(resultString, ";");
+    strcat(resultString, " ");
 
     strcat(resultString, structure.name);
-    strcat(resultString, ";");
+    strcat(resultString, " ");
 
     strcat(resultString, structure.middleName);
-    strcat(resultString, ";");
+    strcat(resultString, " ");
 
     strcat(resultString, structure.group);
-    strcat(resultString, ";");
+    strcat(resultString, " ");
 
-    sprintf(buffer, "%d", structure.birthDay);
+    sprintf(buffer, "%02d", structure.birthDay);
     strcat(resultString, buffer);
-    strcat(resultString, ";");
-    
-    sprintf(buffer, "%d", structure.birthMonth);
-    strcat(resultString, buffer);
-    strcat(resultString, ";");
+    strcat(resultString, ".");
 
-    sprintf(buffer, "%d", structure.birthYear);
+    sprintf(buffer, "%02d", structure.birthMonth);
     strcat(resultString, buffer);
-    strcat(resultString, ";");
-    
+    strcat(resultString, ".");
+
+    sprintf(buffer, "%02d", structure.birthYear);
+    strcat(resultString, buffer);
+    strcat(resultString, " ");
+
     strcat(resultString, structure.email);
     strcat(resultString, "\n");
 
-    FILE* currFile = fopen(fileName, "a");
-    fputs(resultString, currFile);
+    fputs(resultString, currFile); //конец вывода анкетных данных студента
+
+    //теперь выводим оценки и средний балл, если они были введены
+    if (structure.numberOfSubjects > 0)
+    {
+        strcpy(resultString, "");
+        for (int currSubject = 0; currSubject < structure.numberOfSubjects; currSubject++)
+        {
+            sprintf(buffer, "    Оценки по предмету %s: ", structure.subjectName[currSubject]);
+            strcat(resultString, buffer);
+            for (int currMark = 0; currMark < structure.numberOfMarks[currSubject]; currMark++)
+            {
+                sprintf(buffer, "%d ", structure.marks[currSubject][currMark]);
+                strcat(resultString, buffer);
+            }
+            sprintf(buffer, "Средний балл = %.2f", structure.averageMark[currSubject]);
+            strcat(resultString, buffer);
+            strcat(resultString, "\n");
+        }
+        sprintf(buffer, "    Общий средний балл = %.2f\n\n", structure.totalAverageMark);
+        strcat(resultString, buffer);
+        fputs(resultString, currFile); //конец вывода оценок
+    }
+    else
+    {
+        fputs("    У данного студента нет данных об оценках.\n\n", currFile);
+    }
+
     fclose(currFile);
 }
 
