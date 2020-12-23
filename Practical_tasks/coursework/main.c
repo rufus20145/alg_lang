@@ -428,11 +428,12 @@ int main()
             int arraySize = 0;
             int *array = NULL;
             char exportFileName[FILENAME_SIZE];
-            //выбор файла для экспорта данных и экспорт данных студентов
+            // strcpy(exportFileName, fileName);//сейчас выводим всё в отличный от исходного файл
+            // выбор файла для экспорта данных и экспорт данных студентов
             do
             {
                 clearArray(exportFileName, MAXSIZE);
-                inputErrorCode = chooseFile(exportFileName);
+            inputErrorCode = chooseFile(exportFileName);
             } while (1 == inputErrorCode);
             for (int i = 0; i < numberOfStudents; i++)
             {
@@ -472,7 +473,7 @@ int main()
         }
         case 0: //выход из программы
         {
-
+            // printf("Вы не сохранили изменения в файл. Если хотите сохранить их, нажмите 1 ");
             inProgram = 0;
             break;
         }
@@ -486,6 +487,7 @@ int main()
         if (1 == inProgram) //ожидание нажатия Enter для выхода в главное меню
         {
             printf("\nНажмите Enter, чтобы выйти в главное меню. ");
+            showMenu += 2;
             getchar();
             fflush(stdin);
         }
