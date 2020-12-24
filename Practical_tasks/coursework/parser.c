@@ -71,7 +71,6 @@ int checkEmail(char *array)
     {
         array[length - 1] = '\0';
     }
-
     return 0;
 }
 
@@ -96,31 +95,6 @@ int checkCredential(char *array)
     }
     array[0] = toupper(array[0]);
     return 0;
-}
-
-/**
- * @brief функци€, провер€юща€ наличие базы данных в указаном файле
- * 
- * @param fileName им€ файла дл€ проверки
- * @return int код ошибки (0 - ошибки нет, 1 - ошибка есть)
- */
-int checkDatabase(const char *fileName)
-{
-    FILE *currFile = NULL;
-    char buffer[MAXSIZE] = "", referenceString[MAXSIZE] = "0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail\n";
-
-    currFile = fopen(fileName, "r");
-    fgets(buffer, MAXSIZE, currFile);
-    if (!strcmp(buffer, referenceString))
-    {
-        fclose(currFile);
-        return 0; //строка есть
-    }
-    else
-    {
-        fclose(currFile);
-        return 1; //строки нет
-    }
 }
 
 /**
@@ -210,7 +184,7 @@ void readDatabase(const char *fileName, studentStruct *students, int *NumberOfSt
             }
             studentNumber++;
             fieldNumber = 0;
-            Sleep(300);
+            Sleep(200);
         }
     }
     *NumberOfStudents = studentNumber;

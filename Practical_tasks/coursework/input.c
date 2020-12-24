@@ -13,6 +13,9 @@
 
 #include <stdio.h>
 
+#ifndef FILENAME_SIZE
+#define FILENAME_SIZE 128
+#endif // !FILENAME_SIZE
 #define MAXSIZE 256
 
 /**
@@ -27,7 +30,7 @@ int enterNumber(int *number)
     fgets(buffer, MAXSIZE, stdin);
     buffer[strlen(buffer) - 1] = '\0';
     int bufferLength = strlen(buffer);
-    if (bufferLength && strcmp(buffer, "-")) 
+    if (bufferLength && strcmp(buffer, "-"))
     {
         for (int i = 0; i < bufferLength; i++)
         {
@@ -44,29 +47,6 @@ int enterNumber(int *number)
     {
         printf("Вы не ввели ни одного символа, повторите попытку. ");
         return 1;
-    }
-}
-
-/**
- * @brief функция ввода ФИО и номера группы
- * 
- * @param array массив, куда класть введенные данные
- * @return void
- */
-void enterArray(char *array)
-{
-    char buffer = '\0';
-    for (int i = 0; i < MAXSIZE; i++)
-    {
-        buffer = getchar();
-        if ('\n' == buffer)
-        {
-            break;
-        }
-        else
-        {
-            array[i] = buffer;
-        }
     }
 }
 
@@ -105,7 +85,8 @@ int chooseFile(char *fileName)
     case 1: //выбор существующего файла
     {
         printf("Введите имя существующего файла: ");
-        enterArray(fileName);
+        fgets(fileName, FILENAME_SIZE, stdin);
+        fileName[strlen(fileName) - 1] = '\0';
         if (fopen(fileName, "r") == NULL)
         {
             printf("Файл не найден. Повторите попытку.\n");
@@ -118,12 +99,12 @@ int chooseFile(char *fileName)
             fclose(currFile);
             return 0;
         }
-        break;
     }
     case 2: //создание нового файла
     {
         printf("Введите имя файла, который необходимо создать: ");
-        enterArray(fileName);
+        fgets(fileName, FILENAME_SIZE, stdin);
+        fileName[strlen(fileName) - 1] = '\0';
         if (fopen(fileName, "r") == NULL)
         {
             currFile = fopen(fileName, "w");
@@ -137,13 +118,13 @@ int chooseFile(char *fileName)
                 char refString[MAXSIZE / 4] = "0;Surname;Name;MiddleName;Group;Day;Month;Year;E-mail\n";
                 fputs(refString, currFile);
                 fclose(currFile);
-                printf("Файл успешно создан. База данных инициализирована.\n");
+                printf("Файл успешно создан.\n");
                 return 0;
             }
         }
         else
         {
-            printf("Такой файл уже существует, нажмите 1, если вы хотите очистить его, иначе любую другю клавишу.\n");
+            printf("Такой файл уже существует, нажмите 1, если вы хотите очистить его, иначе любую другую клавишу.\n");
             if (getchar() == '1')
             {
                 currFile = fopen(fileName, "w");
@@ -151,7 +132,7 @@ int chooseFile(char *fileName)
                 fputs(refString, currFile);
                 fclose(currFile);
                 fflush(stdin);
-                printf("Файл успешно очищен. База данных инициализирована.\n");
+                printf("Файл успешно очищен.\n");
                 return 0;
             }
             else
@@ -163,7 +144,6 @@ int chooseFile(char *fileName)
                 return 0;
             }
         }
-        break;
     }
     case 0:
     {
@@ -172,9 +152,8 @@ int chooseFile(char *fileName)
     }
     default: //введен другой символ
     {
-        printf("\nНезивестная операция. Повторите попытку.\n");
+        printf("Незивестная операция. Повторите попытку.\n");
         return 1;
-        break;
     }
     }
 }
