@@ -14,8 +14,8 @@ typedef struct
     char group[GROUP_SIZE];
     int birthDay, birthMonth, birthYear;
     char email[MAXSIZE];
-    int numberOfSubjects, numberOfMarks[NUMBER_OF_SUBJECTS];
     char subjectName[NUMBER_OF_SUBJECTS][SUBJECT_NAME_SIZE];
+    int numberOfSubjects, numberOfMarks[NUMBER_OF_SUBJECTS];
     int marks[NUMBER_OF_SUBJECTS][NUMBER_OF_MARKS];
     float averageMark[NUMBER_OF_SUBJECTS];
     float totalAverageMark;

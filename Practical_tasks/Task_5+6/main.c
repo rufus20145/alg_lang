@@ -1,7 +1,7 @@
 /**
  * @file main.c
  * @author rufus20145 (ivan20027749@gmail.com)
- * @brief работа со структурами (программма читает из файла базу данных студентов, записывает её в стурктуру и позволяет вносить изменения, а потом записывает изменения в файл)
+ * @brief работа со структурами (программма читает из файла базу данных студентов, записывает её в структуру и позволяет вносить изменения, а потом записывает изменения в файл)
  * @version 0.1
  * @date 2020-11-06
  * @todo добавление файлов в структуру из другого файла, удаление данных нескольких студентов одновременно
@@ -11,6 +11,7 @@
  */
 
 #define MAXSIZE 256
+#define FILENAME_SIZE 128
 #define NUMBER_OF_STUDENTS 32
 
 #include <stdio.h>
@@ -29,9 +30,9 @@ int main()
 {
 
     studentStruct students[NUMBER_OF_STUDENTS];
-    char fileName[MAXSIZE] = "";
+    char fileName[FILENAME_SIZE] = "";
     // FILE *currFile = NULL;
-    int skipMenuFlaG = 1, inProgram = 1;
+    int skipMenuFlag = 1, inProgram = 1;
     int inputErrorCode = 0, numberOfStudents = 0, showMenu = 0, action = 5;
 
     system("cls");     //очищаем консоль перед стартом программы
@@ -45,21 +46,22 @@ int main()
         printf("ConsoleCP was changed.\n");
     }
 
-    //инициализируем номера студентов
+    //инициализируем номера и количество оценок студентов
     for (int i = 0; i < NUMBER_OF_STUDENTS; i++)
     {
         students[i].number = -1;
+        students[i].numberOfSubjects = 0;
     }
 
     //основное меню программы
     do
     {
-        if (showMenu > 5 || 0 == skipMenuFlaG) //при первом запуске skipMenuFlaG == 1 и меню не выводится
+        if (showMenu > 5 || 0 == skipMenuFlag) //при первом запуске skipMenuFlag == 1 и меню не выводится
         {
             showMenu = 0;
             printf("\nВыберите действие:\n1)Вывести информацию о студентах на экран.\n2)Добавить студента в базу данных.\n3)Удалить информацию о студенте из базы данных.\n4)Очистить базу данных.\n5)Выбрать новый файл\n6)Записать данные в файл\n0)Выход из программы.\n");
         }
-        if (0 == skipMenuFlaG) //при первом запуске skipMenuFlaG == 1 и action == 5, т.к. необходимо сразу перейти к выбору файла
+        if (0 == skipMenuFlag) //при первом запуске skipMenuFlag == 1 и action == 5, т.к. необходимо сразу перейти к выбору файла
         {
             do
             {
@@ -68,22 +70,24 @@ int main()
         }
         switch (action) //основное меню программы
         {
-        case 1: //кажется, работает
+        case 1: //вывод информации о всех студентах
         {
             if (numberOfStudents > 0)
             {
                 for (int currStudentNumber = 0; currStudentNumber < numberOfStudents; currStudentNumber++)
                 {
                     printStudentData(students[currStudentNumber]);
+                    showMenu++;
                 }
             }
             else
             {
                 printf("В структуре нет данных о студентах. Для начала добавьте их.");
+                showMenu++;
             }
             break;
         }
-        case 2:
+        case 2: //добавление студента в базу данных
         {
             int numberOfAddedStudents = 0;
             printf("Введите количество добавляемых студентов или 0, чтобы выйти в главное меню: ");
@@ -94,10 +98,12 @@ int main()
             if (0 == numberOfAddedStudents)
             {
                 printf("Добавление студентов отменено. ");
+                showMenu += 2;
             }
             else if (numberOfStudents + numberOfAddedStudents > NUMBER_OF_STUDENTS)
             {
                 printf("К сожалению, памяти на такое количество студентов не хватит. Начните заново.\n");
+                showMenu += 2;
             }
             else
             {
@@ -107,11 +113,12 @@ int main()
                     addStudentData(&students[numberOfStudents + currStudentNumber], currStudentNumber);
                 }
                 numberOfStudents += numberOfAddedStudents;
+                showMenu += 6;
             }
 
             break;
         }
-        case 3: //кажется, работает
+        case 3: //очистка базы данных
         {
             int currStudentNumber = 0, deletedStudentNumber = 0;
             if (students[currStudentNumber].number != -1)
@@ -166,18 +173,18 @@ int main()
             if (numberOfStudents > 0)
             {
                 printf("Это действие нельзя отменить. Введите %d, чтобы очистить базу данных. Количество попыток: %d.\n", deleteKey, numberOfPasses);
-
                 do
                 {
                     printf("Ваше число: ");
                     inputErrorCode = enterNumber(&number);
-                    if (number != deleteKey)
+                    if (number != deleteKey && 0 == inputErrorCode)
                     {
                         wrongPasses++;
                         printf("Неверно, оставшиеся попытки: %d шт.\n", numberOfPasses - wrongPasses);
-                        showMenu += 2;
+                        showMenu++;
                     }
                 } while ((inputErrorCode == 1) || ((number != deleteKey) && (wrongPasses < numberOfPasses)));
+                showMenu += 2;
                 if (number == deleteKey)
                 {
                     printf("Начинаю очистку массива структур.\n");
@@ -185,10 +192,11 @@ int main()
                     {
                         deleteStudentData(&students[i]);
                         printf("Удалены данные студента %d\n", i + 1);
+                        showMenu++;
                     }
                     numberOfStudents = 0;
                     printf("Очистка завершена.");
-                    showMenu += 6;
+                    showMenu += 2;
                 }
                 else
                 {
@@ -203,20 +211,19 @@ int main()
             }
             break;
         }
-        case 5: //кажется, работает
+        case 5: //смена рабочего файла
         {
-            skipMenuFlaG = 0;
-            printf("Выберите файл.\n");
+            skipMenuFlag = 0;
             //выбираем файл, который будет использоваться
+            printf("Выберите файл.\n");
             do
             {
+                showMenu++;
                 clearArray(fileName, MAXSIZE);
                 inputErrorCode = chooseFile(fileName);
             } while (1 == inputErrorCode);
+            showMenu++;
 
-            if (0 == inputErrorCode)
-            {
-                //проверка наличия базы данных в файле
                 while (checkDatabase(fileName))
                 {
                     printf("В данном файле нет базы данных. Выберите действие:\n1)Инициализировать базу данных (ФАЙЛ БУДЕТ ОЧИЩЕН).\n2)Выбрать новый файл.\n");
@@ -264,11 +271,6 @@ int main()
                 readDatabase(fileName, students, &numberOfStudents);
                 showMenu = 6;
                 printf("Данные успешно прочитаны и записаны в структуру. Количество студентов: %d.", numberOfStudents);
-            }
-            else
-            {
-                showMenu++;
-            }
             break;
         }
         case 6:
