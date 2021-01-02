@@ -3,6 +3,7 @@
 #define BIGSTRING_SIZE 1024
 #define MAXSIZE 256
 
+#include <stdio.h>
 #include "struct.c"
 
 /**
@@ -74,6 +75,12 @@ void printStudentData(const studentStruct structure)
     printArray(resultString);
 }
 
+/**
+ * @brief функция записи данных студента в файл
+ * 
+ * @param structure структура с данными студента
+ * @param fileName имя файла, в который необходимо записать данные
+ */
 void exportSudentData(const studentStruct structure, char *fileName)//изменить после курсовой 
 {
     char resultString[BIGSTRING_SIZE] = "", buffer[MAXSIZE] = "";

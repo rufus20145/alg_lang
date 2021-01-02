@@ -13,6 +13,9 @@
 
 #include <stdio.h>
 
+#ifndef FILENAME_SIZE
+#define FILENAME_SIZE 128
+#endif // !FILENAME_SIZE
 #define MAXSIZE 256
 
 /**
@@ -23,11 +26,11 @@
  */
 int enterNumber(int *number)
 {
-    char buffer[MAXSIZE];
+    char buffer[MAXSIZE] = "";
     fgets(buffer, MAXSIZE, stdin);
     buffer[strlen(buffer) - 1] = '\0';
     int bufferLength = strlen(buffer);
-    if (bufferLength && strcmp(buffer, "-")) 
+    if (bufferLength && strcmp(buffer, "-"))
     {
         for (int i = 0; i < bufferLength; i++)
         {
@@ -118,7 +121,6 @@ int chooseFile(char *fileName)
             fclose(currFile);
             return 0;
         }
-        break;
     }
     case 2: //создание нового файла
     {
@@ -143,7 +145,7 @@ int chooseFile(char *fileName)
         }
         else
         {
-            printf("Такой файл уже существует, нажмите 1, если вы хотите очистить его, иначе любую другю клавишу.\n");
+            printf("Такой файл уже существует, нажмите 1, если вы хотите очистить его, иначе любую другую клавишу.\n");
             if (getchar() == '1')
             {
                 currFile = fopen(fileName, "w");
@@ -163,7 +165,6 @@ int chooseFile(char *fileName)
                 return 0;
             }
         }
-        break;
     }
     case 0:
     {
@@ -174,7 +175,6 @@ int chooseFile(char *fileName)
     {
         printf("\nНезивестная операция. Повторите попытку.\n");
         return 1;
-        break;
     }
     }
 }
