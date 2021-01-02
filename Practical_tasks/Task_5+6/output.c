@@ -81,7 +81,7 @@ void printStudentData(const studentStruct structure)
  * @param structure структура с данными студента
  * @param fileName имя файла, в который необходимо записать данные
  */
-void exportSudentData(const studentStruct structure, char *fileName)//изменить после курсовой 
+void exportStudentData(const studentStruct structure, char *fileName)//изменить после курсовой 
 {
     char resultString[BIGSTRING_SIZE] = "", buffer[MAXSIZE] = "";
     FILE *currFile = fopen(fileName, "a");

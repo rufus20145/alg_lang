@@ -4,7 +4,7 @@
  * 
  * @file parser.c
  * @author your name (you@domain.com)
- * @brief файл с функцями проверки введенных значений
+ * @brief файл с функциями проверки введенных значений
  * @version 0.1
  * @date 2020-11-06
  * 
@@ -18,19 +18,59 @@
 #include "struct.c"
 
 /**
- * @brief функция для проврки email на корректность
+ * @brief функция для проверки email на корректность
  * 
- * @param array 
+ * @param array указатель на массив с введенной почтой
  * @return int результат проверки (0 - ввод верен, 1 - присутствуют ошибки)
  */
 int checkEmail(char *array)
 {
-    if (array == NULL)
+    int length = strlen(array), numberOfDogs = 0, dogPosition = -1, firstDotPosition = -1;
+    // dogPosition - номер ячейки с @, firstDotPosition - номер ячейки с первой точкой после @
+
+    for (int i = 0; i < length; i++)
     {
+        if (array[i] == '@')
+        {
+            numberOfDogs++;
+            dogPosition = i;
+            //printf("Found dog.It`s on %d place\n", dogPosition + 1);//кусок дебага
+        }
+        if (numberOfDogs > 0 && array[i] == '.' && firstDotPosition == -1)
+        {
+            firstDotPosition = i;
+            //printf("Found first dot after dog. It`s on %d place\n", firstDotPosition + 1);//кусок дебага
+        }
+    }
+    if (length < 7)
+    {
+        printf("Email слишком короткий. Повторите попытку ");
         return 1;
     }
-    fputs(array, stdout);
-    printf("\nEmail is cheking!\n");
+    else if (numberOfDogs != 1)
+    {
+        printf("Количество символов @ не может отличаться от 1. Повторите попытку ");
+        return 1;
+    }
+    else if ('@' == array[0]) //если первый символ - @
+    {
+        printf("Символ @ не может находиться на 1 месте, перед ним должна быть хотя бы одна буква или цифра. Повторите попытку ");
+        return 1;
+    }
+    else if (firstDotPosition - dogPosition < 3) //если между @ и первой точкой после нее меньше 2 символов
+    {
+        printf("Домен второго уровня не может быть меньше 2 символов. Повторите попытку ");
+        return 1;
+    }
+    else if (length - firstDotPosition - 1 < 3)
+    {
+        printf("Домен первого уровня не может быть меньше 2 символов. Повторите попытку ");
+        return 1;
+    }
+    else
+    {
+        array[length - 1] = '\0';
+    }
     return 0;
 }
 
@@ -81,7 +121,6 @@ int checkDatabase(const char *fileName)
         return 1; //строки нет
     }
 }
-
 /**
  * @brief функция чтения базы данных студентов из файла и записи 
  * 
@@ -169,7 +208,7 @@ void readDatabase(const char *fileName, studentStruct *students, int *NumberOfSt
             }
             studentNumber++;
             fieldNumber = 0;
-            Sleep(300);
+            Sleep(200);
         }
     }
     *NumberOfStudents = studentNumber;
@@ -252,6 +291,10 @@ void addStudentData(studentStruct *destination, int numberOfStudent)
     {
         fgets(buffer, MAXSIZE, stdin);
         buffer[strlen(buffer) - 1] = '\0';
+        if (!isalpha((unsigned char)buffer[0]) || !isalpha((unsigned char)buffer[7]) || !isdigit(buffer[1]) || !isalpha((unsigned char)buffer[2]) || !isdigit(buffer[4]) || !isdigit(buffer[5]) || !isdigit(buffer[6]) || !isdigit(buffer[9]) || !isdigit(buffer[10]))
+        {
+            printf("Ошибка в номере группы. Повторите попытку ");
+        }
     } while (!isalpha((unsigned char)buffer[0]) || !isalpha((unsigned char)buffer[7]) || !isdigit(buffer[1]) || !isalpha((unsigned char)buffer[2]) || !isdigit(buffer[4]) || !isdigit(buffer[5]) || !isdigit(buffer[6]) || !isdigit(buffer[9]) || !isdigit(buffer[10]));
     strcpy(destination->group, buffer);
 
@@ -288,7 +331,7 @@ void addStudentData(studentStruct *destination, int numberOfStudent)
     do
     {
         fgets(buffer, MAXSIZE, stdin);
-        buffer[strlen(buffer) - 1] = '\0';
+        // buffer[strlen(buffer) - 1] = '\0';
     } while (1 == checkEmail(buffer));
     strcpy(destination->email, buffer);
 }

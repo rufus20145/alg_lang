@@ -4,7 +4,7 @@
  * 
  * @file parser.c
  * @author your name (you@domain.com)
- * @brief файл с функцями проверки введенных значений
+ * @brief файл с функциями проверки введенных значений
  * @version 0.1
  * @date 2020-11-06
  * 
@@ -267,7 +267,7 @@ void addStudentData(studentStruct *destination, int numberOfStudent)
     {
         fgets(buffer, MAXSIZE, stdin);
         buffer[strlen(buffer) - 1] = '\0';
-        if(!isalpha((unsigned char)buffer[0]) || !isalpha((unsigned char)buffer[7]) || !isdigit(buffer[1]) || !isalpha((unsigned char)buffer[2]) || !isdigit(buffer[4]) || !isdigit(buffer[5]) || !isdigit(buffer[6]) || !isdigit(buffer[9]) || !isdigit(buffer[10]))
+        if (!isalpha((unsigned char)buffer[0]) || !isalpha((unsigned char)buffer[7]) || !isdigit(buffer[1]) || !isalpha((unsigned char)buffer[2]) || !isdigit(buffer[4]) || !isdigit(buffer[5]) || !isdigit(buffer[6]) || !isdigit(buffer[9]) || !isdigit(buffer[10]))
         {
             printf("Ошибка в номере группы. Повторите попытку ");
         }

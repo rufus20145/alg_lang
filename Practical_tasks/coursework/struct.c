@@ -5,6 +5,7 @@
 #define NUMBER_OF_SUBJECTS 5
 #define NUMBER_OF_MARKS 16
 #define SUBJECT_NAME_SIZE 64
+#define MAXSIZE 256
 typedef struct
 {
     int number;
