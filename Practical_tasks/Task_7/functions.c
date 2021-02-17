@@ -3,29 +3,29 @@
 #define MAXSIZE 256
 
 /**
- * @brief функция проверки наличия заголовка в файле
+ * @brief С„СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё РЅР°Р»РёС‡РёСЏ Р·Р°РіРѕР»РѕРІРєР° РІ С„Р°Р№Р»Рµ
  * 
- * @param fileName имя файла
- * @return int код ошибки (0 - нет ошибки, 1 - заголовка нет)
+ * @param fileName РёРјСЏ С„Р°Р№Р»Р°
+ * @return int РєРѕРґ РѕС€РёР±РєРё (0 - РЅРµС‚ РѕС€РёР±РєРё, 1 - Р·Р°РіРѕР»РѕРІРєР° РЅРµС‚)
  */
-int checkFile(char *fileName)
+int checkFile(wchar_t *fileName)
 {
     // printf("File 123recieved: %s\n", fileName);
     FILE *currFile = NULL;
     char buffer[MAXSIZE] = "", refString[MAXSIZE] = "matrix";
 
-    currFile = fopen(fileName, "r");
+    currFile = fopen((char *)fileName, "r");
     fflush(stdin);
     fgets(buffer, 7, currFile);
     if (!strcmp(buffer, refString))
     {
-        printf("Матрица найдена.\n");
+        printf("РњР°С‚СЂРёС†Р° РЅР°Р№РґРµРЅР°.\n");
         fclose(currFile);
         return 0;
     }
     else
     {
         fclose(currFile);
-        return 1; //поменять на 1
+        return 1; //РїРѕРјРµРЅСЏС‚СЊ РЅР° 1
     }
 }

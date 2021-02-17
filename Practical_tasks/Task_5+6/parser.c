@@ -4,7 +4,7 @@
  * 
  * @file parser.c
  * @author your name (you@domain.com)
- * @brief файл с функциями проверки введенных значений
+ * @brief С„Р°Р№Р» СЃ С„СѓРЅРєС†РёСЏРјРё РїСЂРѕРІРµСЂРєРё РІРІРµРґРµРЅРЅС‹С… Р·РЅР°С‡РµРЅРёР№
  * @version 0.1
  * @date 2020-11-06
  * 
@@ -18,15 +18,15 @@
 #include "struct.c"
 
 /**
- * @brief функция для проверки email на корректность
+ * @brief С„СѓРЅРєС†РёСЏ РґР»СЏ РїСЂРѕРІРµСЂРєРё email РЅР° РєРѕСЂСЂРµРєС‚РЅРѕСЃС‚СЊ
  * 
- * @param array указатель на массив с введенной почтой
- * @return int результат проверки (0 - ввод верен, 1 - присутствуют ошибки)
+ * @param array СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РјР°СЃСЃРёРІ СЃ РІРІРµРґРµРЅРЅРѕР№ РїРѕС‡С‚РѕР№
+ * @return int СЂРµР·СѓР»СЊС‚Р°С‚ РїСЂРѕРІРµСЂРєРё (0 - РІРІРѕРґ РІРµСЂРµРЅ, 1 - РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‚ РѕС€РёР±РєРё)
  */
 int checkEmail(char *array)
 {
     int length = strlen(array), numberOfDogs = 0, dogPosition = -1, firstDotPosition = -1;
-    // dogPosition - номер ячейки с @, firstDotPosition - номер ячейки с первой точкой после @
+    // dogPosition - РЅРѕРјРµСЂ СЏС‡РµР№РєРё СЃ @, firstDotPosition - РЅРѕРјРµСЂ СЏС‡РµР№РєРё СЃ РїРµСЂРІРѕР№ С‚РѕС‡РєРѕР№ РїРѕСЃР»Рµ @
 
     for (int i = 0; i < length; i++)
     {
@@ -34,37 +34,37 @@ int checkEmail(char *array)
         {
             numberOfDogs++;
             dogPosition = i;
-            //printf("Found dog.It`s on %d place\n", dogPosition + 1);//кусок дебага
+            //printf("Found dog.It`s on %d place\n", dogPosition + 1);//РєСѓСЃРѕРє РґРµР±Р°РіР°
         }
         if (numberOfDogs > 0 && array[i] == '.' && firstDotPosition == -1)
         {
             firstDotPosition = i;
-            //printf("Found first dot after dog. It`s on %d place\n", firstDotPosition + 1);//кусок дебага
+            //printf("Found first dot after dog. It`s on %d place\n", firstDotPosition + 1);//РєСѓСЃРѕРє РґРµР±Р°РіР°
         }
     }
     if (length < 7)
     {
-        printf("Email слишком короткий. Повторите попытку ");
+        printf("Email СЃР»РёС€РєРѕРј РєРѕСЂРѕС‚РєРёР№. РџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ ");
         return 1;
     }
     else if (numberOfDogs != 1)
     {
-        printf("Количество символов @ не может отличаться от 1. Повторите попытку ");
+        printf("РљРѕР»РёС‡РµСЃС‚РІРѕ СЃРёРјРІРѕР»РѕРІ @ РЅРµ РјРѕР¶РµС‚ РѕС‚Р»РёС‡Р°С‚СЊСЃСЏ РѕС‚ 1. РџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ ");
         return 1;
     }
-    else if ('@' == array[0]) //если первый символ - @
+    else if ('@' == array[0]) //РµСЃР»Рё РїРµСЂРІС‹Р№ СЃРёРјРІРѕР» - @
     {
-        printf("Символ @ не может находиться на 1 месте, перед ним должна быть хотя бы одна буква или цифра. Повторите попытку ");
+        printf("РЎРёРјРІРѕР» @ РЅРµ РјРѕР¶РµС‚ РЅР°С…РѕРґРёС‚СЊСЃСЏ РЅР° 1 РјРµСЃС‚Рµ, РїРµСЂРµРґ РЅРёРј РґРѕР»Р¶РЅР° Р±С‹С‚СЊ С…РѕС‚СЏ Р±С‹ РѕРґРЅР° Р±СѓРєРІР° РёР»Рё С†РёС„СЂР°. РџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ ");
         return 1;
     }
-    else if (firstDotPosition - dogPosition < 3) //если между @ и первой точкой после нее меньше 2 символов
+    else if (firstDotPosition - dogPosition < 3) //РµСЃР»Рё РјРµР¶РґСѓ @ Рё РїРµСЂРІРѕР№ С‚РѕС‡РєРѕР№ РїРѕСЃР»Рµ РЅРµРµ РјРµРЅСЊС€Рµ 2 СЃРёРјРІРѕР»РѕРІ
     {
-        printf("Домен второго уровня не может быть меньше 2 символов. Повторите попытку ");
+        printf("Р”РѕРјРµРЅ РІС‚РѕСЂРѕРіРѕ СѓСЂРѕРІРЅСЏ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РјРµРЅСЊС€Рµ 2 СЃРёРјРІРѕР»РѕРІ. РџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ ");
         return 1;
     }
     else if (length - firstDotPosition - 1 < 3)
     {
-        printf("Домен первого уровня не может быть меньше 2 символов. Повторите попытку ");
+        printf("Р”РѕРјРµРЅ РїРµСЂРІРѕРіРѕ СѓСЂРѕРІРЅСЏ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РјРµРЅСЊС€Рµ 2 СЃРёРјРІРѕР»РѕРІ. РџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ ");
         return 1;
     }
     else
@@ -75,10 +75,10 @@ int checkEmail(char *array)
 }
 
 /**
- * @brief функция проверки ФИО
+ * @brief С„СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё Р¤РРћ
  * 
- * @param array массив для проверки
- * @return int результат проверки
+ * @param array РјР°СЃСЃРёРІ РґР»СЏ РїСЂРѕРІРµСЂРєРё
+ * @return int СЂРµР·СѓР»СЊС‚Р°С‚ РїСЂРѕРІРµСЂРєРё
  */
 int checkCredential(char *array)
 {
@@ -87,8 +87,8 @@ int checkCredential(char *array)
     {
         if (!isalpha((unsigned char)array[i]))
         {
-            printf("%c не является буквой ", array[i]);
-            printf("Ошибка ввода. Повторите попытку. ");
+            printf("%c РЅРµ СЏРІР»СЏРµС‚СЃСЏ Р±СѓРєРІРѕР№ ", array[i]);
+            printf("РћС€РёР±РєР° РІРІРѕРґР°. РџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ. ");
             clearArray(array, MAXSIZE);
             return 1;
         }
@@ -98,10 +98,10 @@ int checkCredential(char *array)
 }
 
 /**
- * @brief функция, проверяющая наличие базы данных в указаном файле
+ * @brief С„СѓРЅРєС†РёСЏ, РїСЂРѕРІРµСЂСЏСЋС‰Р°СЏ РЅР°Р»РёС‡РёРµ Р±Р°Р·С‹ РґР°РЅРЅС‹С… РІ СѓРєР°Р·Р°РЅРѕРј С„Р°Р№Р»Рµ
  * 
- * @param fileName имя файла для проверки
- * @return int код ошибки (0 - ошибки нет, 1 - ошибка есть)
+ * @param fileName РёРјСЏ С„Р°Р№Р»Р° РґР»СЏ РїСЂРѕРІРµСЂРєРё
+ * @return int РєРѕРґ РѕС€РёР±РєРё (0 - РѕС€РёР±РєРё РЅРµС‚, 1 - РѕС€РёР±РєР° РµСЃС‚СЊ)
  */
 int checkDatabase(const char *fileName)
 {
@@ -113,19 +113,19 @@ int checkDatabase(const char *fileName)
     if (!strcmp(buffer, referenceString))
     {
         fclose(currFile);
-        return 0; //строка есть
+        return 0; //СЃС‚СЂРѕРєР° РµСЃС‚СЊ
     }
     else
     {
         fclose(currFile);
-        return 1; //строки нет
+        return 1; //СЃС‚СЂРѕРєРё РЅРµС‚
     }
 }
 /**
- * @brief функция чтения базы данных студентов из файла и записи 
+ * @brief С„СѓРЅРєС†РёСЏ С‡С‚РµРЅРёСЏ Р±Р°Р·С‹ РґР°РЅРЅС‹С… СЃС‚СѓРґРµРЅС‚РѕРІ РёР· С„Р°Р№Р»Р° Рё Р·Р°РїРёСЃРё 
  * 
- * @param fileName имя файла с базой данных
- * @param students структура, в которую надо записать студентов
+ * @param fileName РёРјСЏ С„Р°Р№Р»Р° СЃ Р±Р°Р·РѕР№ РґР°РЅРЅС‹С…
+ * @param students СЃС‚СЂСѓРєС‚СѓСЂР°, РІ РєРѕС‚РѕСЂСѓСЋ РЅР°РґРѕ Р·Р°РїРёСЃР°С‚СЊ СЃС‚СѓРґРµРЅС‚РѕРІ
  */
 void readDatabase(const char *fileName, studentStruct *students, int *NumberOfStudents)
 {
@@ -137,7 +137,7 @@ void readDatabase(const char *fileName, studentStruct *students, int *NumberOfSt
     currFile = fopen(fileName, "r");
     while (!feof(currFile))
     {
-        if (0 == trashString) //необходимо выкинуть 1 строку, т.к. в ней образец
+        if (0 == trashString) //РЅРµРѕР±С…РѕРґРёРјРѕ РІС‹РєРёРЅСѓС‚СЊ 1 СЃС‚СЂРѕРєСѓ, С‚.Рє. РІ РЅРµР№ РѕР±СЂР°Р·РµС†
         {
             fgets(buffer, MAXSIZE, currFile);
             trashString = 1;
@@ -215,9 +215,9 @@ void readDatabase(const char *fileName, studentStruct *students, int *NumberOfSt
 }
 
 /**
- * @brief функция для очистки структуры с данными о студента 
+ * @brief С„СѓРЅРєС†РёСЏ РґР»СЏ РѕС‡РёСЃС‚РєРё СЃС‚СЂСѓРєС‚СѓСЂС‹ СЃ РґР°РЅРЅС‹РјРё Рѕ СЃС‚СѓРґРµРЅС‚Р° 
  * 
- * @param structure указатель на структуру, в которой надо удалить данные
+ * @param structure СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃС‚СЂСѓРєС‚СѓСЂСѓ, РІ РєРѕС‚РѕСЂРѕР№ РЅР°РґРѕ СѓРґР°Р»РёС‚СЊ РґР°РЅРЅС‹Рµ
  */
 void deleteStudentData(studentStruct *structure)
 {
@@ -234,10 +234,10 @@ void deleteStudentData(studentStruct *structure)
 }
 
 /**
- * @brief функция для переноса данных о студенте из одной структуры массива в другую (например, при удалении первого надо сдвинуть всех остальных на 1 к началу)
+ * @brief С„СѓРЅРєС†РёСЏ РґР»СЏ РїРµСЂРµРЅРѕСЃР° РґР°РЅРЅС‹С… Рѕ СЃС‚СѓРґРµРЅС‚Рµ РёР· РѕРґРЅРѕР№ СЃС‚СЂСѓРєС‚СѓСЂС‹ РјР°СЃСЃРёРІР° РІ РґСЂСѓРіСѓСЋ (РЅР°РїСЂРёРјРµСЂ, РїСЂРё СѓРґР°Р»РµРЅРёРё РїРµСЂРІРѕРіРѕ РЅР°РґРѕ СЃРґРІРёРЅСѓС‚СЊ РІСЃРµС… РѕСЃС‚Р°Р»СЊРЅС‹С… РЅР° 1 Рє РЅР°С‡Р°Р»Сѓ)
  * 
- * @param *destination указатель на конечную структуру
- * @param source данные из исходной структуры
+ * @param *destination СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РєРѕРЅРµС‡РЅСѓСЋ СЃС‚СЂСѓРєС‚СѓСЂСѓ
+ * @param source РґР°РЅРЅС‹Рµ РёР· РёСЃС…РѕРґРЅРѕР№ СЃС‚СЂСѓРєС‚СѓСЂС‹
  */
 void moveStudentData(studentStruct *destination, const studentStruct source)
 {
@@ -254,15 +254,15 @@ void moveStudentData(studentStruct *destination, const studentStruct source)
 }
 
 /**
- * @brief функция для ввода с клавиатуры анкетных данных студента и последующей записи их в структуру
+ * @brief С„СѓРЅРєС†РёСЏ РґР»СЏ РІРІРѕРґР° СЃ РєР»Р°РІРёР°С‚СѓСЂС‹ Р°РЅРєРµС‚РЅС‹С… РґР°РЅРЅС‹С… СЃС‚СѓРґРµРЅС‚Р° Рё РїРѕСЃР»РµРґСѓСЋС‰РµР№ Р·Р°РїРёСЃРё РёС… РІ СЃС‚СЂСѓРєС‚СѓСЂСѓ
  * 
- * @param destination указатель на структуру, куда необходимо записать полученные данные
+ * @param destination СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЃС‚СЂСѓРєС‚СѓСЂСѓ, РєСѓРґР° РЅРµРѕР±С…РѕРґРёРјРѕ Р·Р°РїРёСЃР°С‚СЊ РїРѕР»СѓС‡РµРЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
  */
 void addStudentData(studentStruct *destination, int numberOfStudent)
 {
     numberOfStudent++;
     char buffer[MAXSIZE] = "";
-    printf("Введите фамилию студента %d: ", numberOfStudent);
+    printf("Р’РІРµРґРёС‚Рµ С„Р°РјРёР»РёСЋ СЃС‚СѓРґРµРЅС‚Р° %d: ", numberOfStudent);
     do
     {
         fgets(buffer, MAXSIZE, stdin);
@@ -270,7 +270,7 @@ void addStudentData(studentStruct *destination, int numberOfStudent)
     } while (1 == checkCredential(buffer));
     strcpy(destination->surName, buffer);
 
-    printf("Введите имя студента %d: ", numberOfStudent);
+    printf("Р’РІРµРґРёС‚Рµ РёРјСЏ СЃС‚СѓРґРµРЅС‚Р° %d: ", numberOfStudent);
     do
     {
         fgets(buffer, MAXSIZE, stdin);
@@ -278,7 +278,7 @@ void addStudentData(studentStruct *destination, int numberOfStudent)
     } while (1 == checkCredential(buffer));
     strcpy(destination->name, buffer);
 
-    printf("Введите отчество студента %d: ", numberOfStudent);
+    printf("Р’РІРµРґРёС‚Рµ РѕС‚С‡РµСЃС‚РІРѕ СЃС‚СѓРґРµРЅС‚Р° %d: ", numberOfStudent);
     do
     {
         fgets(buffer, MAXSIZE, stdin);
@@ -286,19 +286,19 @@ void addStudentData(studentStruct *destination, int numberOfStudent)
     } while (1 == checkCredential(buffer));
     strcpy(destination->middleName, buffer);
 
-    printf("Введите номер группы студента %d: ", numberOfStudent);
+    printf("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РіСЂСѓРїРїС‹ СЃС‚СѓРґРµРЅС‚Р° %d: ", numberOfStudent);
     do
     {
         fgets(buffer, MAXSIZE, stdin);
         buffer[strlen(buffer) - 1] = '\0';
         if (!isalpha((unsigned char)buffer[0]) || !isalpha((unsigned char)buffer[7]) || !isdigit(buffer[1]) || !isalpha((unsigned char)buffer[2]) || !isdigit(buffer[4]) || !isdigit(buffer[5]) || !isdigit(buffer[6]) || !isdigit(buffer[9]) || !isdigit(buffer[10]))
         {
-            printf("Ошибка в номере группы. Повторите попытку ");
+            printf("РћС€РёР±РєР° РІ РЅРѕРјРµСЂРµ РіСЂСѓРїРїС‹. РџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ ");
         }
     } while (!isalpha((unsigned char)buffer[0]) || !isalpha((unsigned char)buffer[7]) || !isdigit(buffer[1]) || !isalpha((unsigned char)buffer[2]) || !isdigit(buffer[4]) || !isdigit(buffer[5]) || !isdigit(buffer[6]) || !isdigit(buffer[9]) || !isdigit(buffer[10]));
     strcpy(destination->group, buffer);
 
-    printf("Введите дату рождения студента %d в формате ДД.ММ.ГГГГ: ", numberOfStudent);
+    printf("Р’РІРµРґРёС‚Рµ РґР°С‚Сѓ СЂРѕР¶РґРµРЅРёСЏ СЃС‚СѓРґРµРЅС‚Р° %d РІ С„РѕСЂРјР°С‚Рµ Р”Р”.РњРњ.Р“Р“Р“Р“: ", numberOfStudent);
     fgets(buffer, MAXSIZE, stdin);
     buffer[strlen(buffer) - 1] = '\0';
     char *separatedBuffer = "";
@@ -327,7 +327,7 @@ void addStudentData(studentStruct *destination, int numberOfStudent)
         fieldNumber++;
     }
 
-    printf("Введите электронную почту студента %d: ", numberOfStudent);
+    printf("Р’РІРµРґРёС‚Рµ СЌР»РµРєС‚СЂРѕРЅРЅСѓСЋ РїРѕС‡С‚Сѓ СЃС‚СѓРґРµРЅС‚Р° %d: ", numberOfStudent);
     do
     {
         fgets(buffer, MAXSIZE, stdin);

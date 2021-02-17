@@ -1,7 +1,7 @@
 /**
  * @file main.c
  * @author your name (you@domain.com)
- * @brief задание на работу с матрицей с помощью структуры
+ * @brief Р·Р°РґР°РЅРёРµ РЅР° СЂР°Р±РѕС‚Сѓ СЃ РјР°С‚СЂРёС†РµР№ СЃ РїРѕРјРѕС‰СЊСЋ СЃС‚СЂСѓРєС‚СѓСЂС‹
  * @version 0.1
  * @date 2020-11-20
  * 
@@ -46,44 +46,44 @@ void printMatrix(matrixes matrix)
 
 int main()
 {
-    if (GetConsoleCP() != 1251)
+    if (GetConsoleCP() != 65001)
     {
-        SetConsoleCP(1251);
-        SetConsoleOutputCP(1251);
+        SetConsoleCP(65001);
+        SetConsoleOutputCP(65001);
         printf("ConsoleCP was changed.\n");
     }
     setlocale(LC_ALL, "RUSSIAN");
     matrixes matrix;
-    char fileName[MAXSIZE] = "";
+    wchar_t fileName[MAXSIZE];
     char buffer[BUFFER_SIZE] = "";
     FILE *currFile = NULL;
     int inputErrorCode = 0, errorCode = 0, flag = 0, matrixWidth = 0;
 
-    do //ввод имени файла
+    do //РІРІРѕРґ РёРјРµРЅРё С„Р°Р№Р»Р°
     {
         inputErrorCode = chooseFile(fileName);
     } while (1 == inputErrorCode);
 
-    printf("Переход к парсингу\n");
+    printf("РџРµСЂРµС…РѕРґ Рє РїР°СЂСЃРёРЅРіСѓ\n");
     do
     {
         errorCode = checkFile(fileName);
         if (1 == errorCode)
         {
-            printf("В данном файле нет матрицы. Выберите другой файл.\n");
-            do //ввод имени файла
+            printf("Р’ РґР°РЅРЅРѕРј С„Р°Р№Р»Рµ РЅРµС‚ РјР°С‚СЂРёС†С‹. Р’С‹Р±РµСЂРёС‚Рµ РґСЂСѓРіРѕР№ С„Р°Р№Р».\n");
+            do //РІРІРѕРґ РёРјРµРЅРё С„Р°Р№Р»Р°
             {
                 inputErrorCode = chooseFile(fileName);
             } while (1 == inputErrorCode);
         }
         else
         {
-            printf("Матрица обнаружена. Начинаю запись в структуру.\n");
+            printf("РњР°С‚СЂРёС†Р° РѕР±РЅР°СЂСѓР¶РµРЅР°. РќР°С‡РёРЅР°СЋ Р·Р°РїРёСЃСЊ РІ СЃС‚СЂСѓРєС‚СѓСЂСѓ.\n");
         }
     } while (1 == errorCode);
 
     fflush(stdin);
-    currFile = fopen(fileName, "r");
+    currFile = fopen((char *)fileName, "r");
 
     matrix.width = 0;
     matrix.height = -1;
@@ -114,7 +114,7 @@ int main()
         matrix.height++;
     }
 
-    //поиск минимального и максимального элементов, а также суммы четных и нечетных
+    //РїРѕРёСЃРє РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ Рё РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚РѕРІ, Р° С‚Р°РєР¶Рµ СЃСѓРјРјС‹ С‡РµС‚РЅС‹С… Рё РЅРµС‡РµС‚РЅС‹С…
     matrix.minElementRaw = matrix.minElementColumn = 0;
     matrix.maxElementRaw = matrix.maxElementColumn = 0;
     matrix.firstSum = matrix.secondSum = 0;
@@ -143,13 +143,13 @@ int main()
             }
         }
     }
-    printf("\nПрочитана следующая матрица:\n");
+    printf("\nРџСЂРѕС‡РёС‚Р°РЅР° СЃР»РµРґСѓСЋС‰Р°СЏ РјР°С‚СЂРёС†Р°:\n");
     printMatrix(matrix);
-    printf("Ширина: %d\n", matrix.width);
-    printf("Высота: %d\n", matrix.height);
-    printf("Минимальный элемент [%d][%d] = %d, максимальный элемент [%d][%d] = %d\n", matrix.minElementRaw + 1, matrix.minElementColumn + 1, matrix.array[matrix.minElementRaw][matrix.minElementColumn], matrix.maxElementRaw + 1, matrix.maxElementColumn + 1, matrix.array[matrix.maxElementRaw][matrix.maxElementColumn]);
-    printf("Сумма четных элементов: %d, сумма нечетных: %d\n", matrix.firstSum, matrix.secondSum);
+    printf("РЁРёСЂРёРЅР°: %d\n", matrix.width);
+    printf("Р’С‹СЃРѕС‚Р°: %d\n", matrix.height);
+    printf("РњРёРЅРёРјР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚ [%d][%d] = %d, РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚ [%d][%d] = %d\n", matrix.minElementRaw + 1, matrix.minElementColumn + 1, matrix.array[matrix.minElementRaw][matrix.minElementColumn], matrix.maxElementRaw + 1, matrix.maxElementColumn + 1, matrix.array[matrix.maxElementRaw][matrix.maxElementColumn]);
+    printf("РЎСѓРјРјР° С‡РµС‚РЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ: %d, СЃСѓРјРјР° РЅРµС‡РµС‚РЅС‹С…: %d\n", matrix.firstSum, matrix.secondSum);
     fclose(currFile);
-    printf("Конец.\n");
+    printf("РљРѕРЅРµС†.\n");
     return 0;
 }

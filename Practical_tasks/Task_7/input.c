@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <wchar.h>
 
 /**
  * @file input.c
  * @author your name (you@domain.com)
- * @brief файл с функциями ввода и очистки массива
+ * @brief С„Р°Р№Р» СЃ С„СѓРЅРєС†РёСЏРјРё РІРІРѕРґР° Рё РѕС‡РёСЃС‚РєРё РјР°СЃСЃРёРІР°
  * @version 0.1
  * @date 2020-11-06
  * 
@@ -14,17 +15,17 @@
 #define MAXSIZE 256
 
 /**
- * @brief функция ввода ФИО и номера группы
+ * @brief С„СѓРЅРєС†РёСЏ РІРІРѕРґР° Р¤РРћ Рё РЅРѕРјРµСЂР° РіСЂСѓРїРїС‹
  * 
- * @param array массив, куда класть введенные данные
+ * @param array РјР°СЃСЃРёРІ, РєСѓРґР° РєР»Р°СЃС‚СЊ РІРІРµРґРµРЅРЅС‹Рµ РґР°РЅРЅС‹Рµ
  * @return void
  */
-void enterCredential(char *array)
+void enterCredential(wchar_t *array)
 {
-    char buffer = '\0';
+    wchar_t buffer = '\0';
     for (int i = 0; i < MAXSIZE; i++)
     {
-        buffer = getchar();
+        buffer = getwchar();
         if ('\n' == buffer)
         {
             array[i] = ' ';
@@ -38,9 +39,9 @@ void enterCredential(char *array)
 }
 
 /**
- * @brief функция для очистки массива
+ * @brief С„СѓРЅРєС†РёСЏ РґР»СЏ РѕС‡РёСЃС‚РєРё РјР°СЃСЃРёРІР°
  * 
- * @param array - массив для очистки
+ * @param array - РјР°СЃСЃРёРІ РґР»СЏ РѕС‡РёСЃС‚РєРё
  */
 void clearArray(char *array, int arraySize)
 {
@@ -52,77 +53,77 @@ void clearArray(char *array, int arraySize)
 }
 
 /**
- * @brief функция ввода имени или создания нового файла
+ * @brief С„СѓРЅРєС†РёСЏ РІРІРѕРґР° РёРјРµРЅРё РёР»Рё СЃРѕР·РґР°РЅРёСЏ РЅРѕРІРѕРіРѕ С„Р°Р№Р»Р°
  * 
- * @return int код ошибки (0 нет ошибки, 1 есть ошибка)
+ * @return int РєРѕРґ РѕС€РёР±РєРё (0 РЅРµС‚ РѕС€РёР±РєРё, 1 РµСЃС‚СЊ РѕС€РёР±РєР°)
  */
-int chooseFile(char *fileName)
+int chooseFile(wchar_t *fileName)
 {
     FILE *currFile = NULL;
     char action;
-
-    printf("Выберите пункт меню:\n1)Выбрать существующий файл.\n2)Создать новый файл/очистить существующий.\n");
+    _cputws((wchar_t *)"Р’С‹Р±РµСЂРёС‚Рµ РїСѓРЅРєС‚ РјРµРЅСЋ:\n1)Р’С‹Р±СЂР°С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ С„Р°Р№Р».\n2)РЎРѕР·РґР°С‚СЊ РЅРѕРІС‹Р№ С„Р°Р№Р»/РѕС‡РёСЃС‚РёС‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№.\n");
+    wprintf((wchar_t *)"Language.Р’С‹Р±РµСЂРёС‚Рµ РїСѓРЅРєС‚ РјРµРЅСЋ:\n1)Р’С‹Р±СЂР°С‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ С„Р°Р№Р».\n2)РЎРѕР·РґР°С‚СЊ РЅРѕРІС‹Р№ С„Р°Р№Р»/РѕС‡РёСЃС‚РёС‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№.\n");
     action = getchar();
     fflush(stdin);
     switch (action)
     {
-    case '1': //выбор существующего файла
+    case '1': //РІС‹Р±РѕСЂ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРіРѕ С„Р°Р№Р»Р°
     {
-        printf("Введите имя существующего файла: ");
+        wprintf((wchar_t *)"Р’РІРµРґРёС‚Рµ РёРјСЏ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРіРѕ С„Р°Р№Р»Р°: ");
         enterCredential(fileName);
-        if (fopen(fileName, "r") == NULL)
+        if (fopen((char *)fileName, "r") == NULL)
         {
-            printf("Ошибка открытия файла. Повторите попытку.\n");
+            wprintf((wchar_t *)"РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°. РџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ.\n");
             return 1;
         }
         else
         {
-            currFile = fopen(fileName, "r");
-            printf("Файл успешно найден.\n");
+            currFile = fopen((char *)fileName, "r");
+            wprintf((wchar_t *)"Р¤Р°Р№Р» СѓСЃРїРµС€РЅРѕ РЅР°Р№РґРµРЅ.\n");
             fclose(currFile);
-            printf("File recieved: %s\n", fileName);
+            wprintf((wchar_t *)"File received: %s\n", fileName);
             return 0;
         }
         break;
     }
-    case '2': //создание нового файла
+    case '2': //СЃРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ С„Р°Р№Р»Р°
     {
-        printf("Введите имя файла, который необходимо создать: ");
+        wprintf((wchar_t *)"Р’РІРµРґРёС‚Рµ РёРјСЏ С„Р°Р№Р»Р°, РєРѕС‚РѕСЂС‹Р№ РЅРµРѕР±С…РѕРґРёРјРѕ СЃРѕР·РґР°С‚СЊ: ");
         enterCredential(fileName);
-        if (fopen(fileName, "r") == NULL)
+        if (fopen((char *)fileName, "r") == NULL)
         {
-            currFile = fopen(fileName, "w");
+            currFile = fopen((char *)fileName, "w");
             fputs("matrix", currFile);
             fclose(currFile);
-            printf("Файл успешно создан.\n");
+            wprintf((wchar_t *)"Р¤Р°Р№Р» СѓСЃРїРµС€РЅРѕ СЃРѕР·РґР°РЅ.\n");
             return 0;
         }
         else
         {
-            printf("Такой файл уже существует, нажмите 1, если вы хотите очистить его, иначе любую другю клавишу.\n");
+            printf("РўР°РєРѕР№ С„Р°Р№Р» СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚, РЅР°Р¶РјРёС‚Рµ 1, РµСЃР»Рё РІС‹ С…РѕС‚РёС‚Рµ РѕС‡РёСЃС‚РёС‚СЊ РµРіРѕ, РёРЅР°С‡Рµ Р»СЋР±СѓСЋ РґСЂСѓРіСѓСЋ РєР»Р°РІРёС€Сѓ.\n");
             if (getchar() == '1')
             {
-                currFile = fopen(fileName, "w");
+                currFile = fopen((char *)fileName, "w");
                 fclose(currFile);
                 fflush(stdin);
-                printf("Файл успешно очищен.\n");
+                printf("Р¤Р°Р№Р» СѓСЃРїРµС€РЅРѕ РѕС‡РёС‰РµРЅ.\n");
                 return 0;
             }
             else
             {
-                currFile = fopen(fileName, "r");
+                currFile = fopen((char *)fileName, "r");
                 fclose(currFile);
                 fflush(stdin);
-                printf("Файл не был очищен.\n");
+                printf("Р¤Р°Р№Р» РЅРµ Р±С‹Р» РѕС‡РёС‰РµРЅ.\n");
                 return 0;
             }
         }
         break;
     }
-    default: //введен другой символ
+    default: //РІРІРµРґРµРЅ РґСЂСѓРіРѕР№ СЃРёРјРІРѕР»
     {
         // system("cls");
-        printf("Незивестная операция. Повторите попытку.\n");
+        printf("РќРµРёР·РІРµСЃС‚РЅР°СЏ РѕРїРµСЂР°С†РёСЏ. РџРѕРІС‚РѕСЂРёС‚Рµ РїРѕРїС‹С‚РєСѓ.\n");
         return 1;
         break;
     }

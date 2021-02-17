@@ -1,7 +1,7 @@
 /**
  * @file output.c
  * @author rufus20145 (ivan20027749@gmail.com)
- * @brief файл с функциями вывода
+ * @brief С„Р°Р№Р» СЃ С„СѓРЅРєС†РёСЏРјРё РІС‹РІРѕРґР°
  * @version 0.1
  * @date 2020-11-06
  * 
@@ -10,9 +10,9 @@
  */
 
 /**
- * @brief функция вывода массива символов
+ * @brief С„СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° РјР°СЃСЃРёРІР° СЃРёРјРІРѕР»РѕРІ
  * 
- * @param array массив для вывода
+ * @param array РјР°СЃСЃРёРІ РґР»СЏ РІС‹РІРѕРґР°
  */
 void printArray(char *array)
 {
@@ -20,7 +20,7 @@ void printArray(char *array)
     for (int i = 0; i < arraySize; i++)
     {
         printf("%c", array[i]);
-        if( '\0' == array[i]) printf("\nСимвол конца строки\n");
+        if( '\0' == array[i]) printf("\nРЎРёРјРІРѕР» РєРѕРЅС†Р° СЃС‚СЂРѕРєРё\n");
     }
     if (array[arraySize - 1] != '\n')
     {
