@@ -15,6 +15,7 @@
         "initializer_list": "c",
         "utility": "c",
         "cstdio": "cpp",
-        "wchar.h": "c"
+        "wchar.h": "c",
+        "locale.h": "c"
     }
 }

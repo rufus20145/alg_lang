@@ -53,6 +53,7 @@ int main()
         printf("ConsoleCP was changed.\n");
     }
     setlocale(LC_ALL, "RUSSIAN");
+    // _wsetlocale(LC_ALL, (wchar_t *)"RUSSIAN");
     matrixes matrix;
     wchar_t fileName[MAXSIZE];
     char buffer[BUFFER_SIZE] = "";

@@ -10,7 +10,7 @@
  */
 int checkFile(wchar_t *fileName)
 {
-    // printf("File 123recieved: %s\n", fileName);
+    // printf("File 123received: %s\n", fileName);
     FILE *currFile = NULL;
     char buffer[MAXSIZE] = "", refString[MAXSIZE] = "matrix";
 

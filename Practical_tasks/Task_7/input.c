@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <wchar.h>
+#include <string.h>
 
 /**
  * @file input.c
@@ -25,7 +26,7 @@ void enterCredential(wchar_t *array)
     wchar_t buffer = '\0';
     for (int i = 0; i < MAXSIZE; i++)
     {
-        buffer = getwchar();
+        buffer = fgetwc(stdin);
         if ('\n' == buffer)
         {
             array[i] = ' ';
@@ -43,7 +44,7 @@ void enterCredential(wchar_t *array)
  * 
  * @param array - массив для очистки
  */
-void clearArray(char *array, int arraySize)
+void clearArray(wchar_t *array, int arraySize)
 {
 
     for (int i = 0; i < arraySize; i++)
@@ -59,10 +60,16 @@ void clearArray(char *array, int arraySize)
  */
 int chooseFile(wchar_t *fileName)
 {
+    wchar_t string[MAXSIZE];
+    char tempStr[MAXSIZE] = "Выберите пункт меню:\n1)Выбрать существующий файл.\n2)Создать новый файл/очистить существующий.\n";
+    for (int i = 0; i < (int)strlen(tempStr); i++)
+    {
+        string[i] = btowc(tempStr[i]);
+    }
+    
     FILE *currFile = NULL;
     char action;
-    _cputws((wchar_t *)"Выберите пункт меню:\n1)Выбрать существующий файл.\n2)Создать новый файл/очистить существующий.\n");
-    wprintf((wchar_t *)"Language.Выберите пункт меню:\n1)Выбрать существующий файл.\n2)Создать новый файл/очистить существующий.\n");
+    fputws(string, stdout);
     action = getchar();
     fflush(stdin);
     switch (action)
